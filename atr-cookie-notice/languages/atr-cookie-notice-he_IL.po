@@ -1,0 +1,538 @@
+# ATR Cookie Notice Hebrew Translation
+# Copyright (C) 2024 Yehuda Tiram
+# This file is distributed under the same license as the ATR Cookie Notice package.
+msgid ""
+msgstr ""
+"Project-Id-Version: ATR Cookie Notice 1.1.0\n"
+"Report-Msgid-Bugs-To: https://atarimtr.co.il/\n"
+"POT-Creation-Date: 2025-09-17 00:00+0000\n"
+"PO-Revision-Date: 2026-02-06 15:24+0200\n"
+"Last-Translator: Yehuda Tiram <yehuda@atarimtr.co.il>\n"
+"Language-Team: Hebrew\n"
+"Language: he_IL\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.5\n"
+
+# New strings for Tools & Simple mode
+#: admin/class-atr-cookie-notice-admin-settings.php:800
+msgid "Tools"
+msgstr "כלים"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:801
+msgid ""
+"Use this to purge common caches and refresh plugin asset versions (bypass "
+"stale caches)."
+msgstr ""
+"השתמשו בזה כדי לנקות מטמונים נפוצים ולרענן גרסאות משאבי התוסף (לעקיפת מטמון "
+"ישן)."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:803
+msgid "Purge caches and refresh assets"
+msgstr "ניקוי מטמון ורענון משאבים"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:805
+msgid "Caches purged and assets refreshed."
+msgstr "המטמונים נוקו והמשאבים רועננו."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:332
+msgid "Consent Mode"
+msgstr "מצב הסכמה"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:333
+msgid ""
+"Choose between full consent (blocks non-essential until consent) or simple "
+"informational notice."
+msgstr ""
+"בחרו בין מצב מלא (חוסם לא-חיוניות עד להסכמה) לבין מצב פשוט (מידע בלבד, ללא "
+"חסימה)."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:335
+msgid "Full (block non-essential until consent)"
+msgstr "מלא (חוסם לא-חיוניות עד להסכמה)"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:336
+msgid "Simple (informational only, no blocking)"
+msgstr "פשוט (מידע בלבד, ללא חסימה)"
+
+#: public/class-atr-cookie-notice-public.php:362
+msgid ""
+"We use cookies to improve your experience. By continuing, you accept cookies."
+msgstr ""
+"אנחנו משתמשים בעוגיות לשיפור חוויית המשתמש. בהמשך שימושך באתר, אתה מקבל "
+"עוגיות."
+
+#: public/class-atr-cookie-notice-public.php:367
+msgid "OK"
+msgstr "אישור"
+
+#: atr-simple-cookie-consent-banner.php:296
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:125
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:181
+msgid "Testing Guide"
+msgstr "מדריך בדיקות"
+
+#: atr-simple-cookie-consent-banner.php:297
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:146
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:177
+msgid "Settings"
+msgstr "הגדרות"
+
+#: includes/class-atr-simple-cookie-consent-banner-woocommerce.php:44
+#: includes/class-atr-simple-cookie-consent-banner-forms.php:258
+#: includes/class-atr-simple-cookie-consent-banner-forms.php:341
+msgid "I have read and agree to the"
+msgstr "קראתי ואני מסכים ל"
+
+#: includes/class-atr-simple-cookie-consent-banner-woocommerce.php:45
+#: includes/class-atr-simple-cookie-consent-banner-forms.php:259
+#: includes/class-atr-simple-cookie-consent-banner-forms.php:341
+#: includes/class-atr-simple-cookie-consent-banner-public.php:242
+#: public/class-atr-simple-cookie-consent-banner-public.php:419
+msgid "Privacy Policy"
+msgstr "מדיניות הפרטיות"
+
+#: includes/class-atr-simple-cookie-consent-banner-forms.php:260
+#: includes/class-atr-simple-cookie-consent-banner-forms.php:119
+#: includes/class-atr-simple-cookie-consent-banner-forms.php:189
+msgid "You must accept the privacy policy before submitting the form."
+msgstr "עליך לקבל את מדיניות הפרטיות לפני שליחת הטופס."
+
+#: includes/class-atr-simple-cookie-consent-banner-woocommerce.php:61
+msgid "You must accept the privacy policy before placing the order."
+msgstr "עליך לקבל את מדיניות הפרטיות לפני ביצוע ההזמנה."
+
+#: includes/class-atr-simple-cookie-consent-banner-woocommerce.php:86
+msgid "Privacy Policy Acceptance:"
+msgstr "הסכמה למדיניות פרטיות:"
+
+#: includes/class-atr-simple-cookie-consent-banner-woocommerce.php:86
+msgid "Yes"
+msgstr "כן"
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:89
+#, fuzzy
+#| msgid "You can read this page while deciding about cookies"
+msgid "💡 You can read this page while deciding about cookies"
+msgstr "אפשר לקרוא את העמוד הזה תוך כדי החלטה על עוגיות"
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:208
+#: public/class-atr-simple-cookie-consent-banner-public.php:385
+#: includes/class-atr-simple-cookie-consent-banner-consent.php:114
+msgid ""
+"We use cookies to ensure the website functions properly and improve user "
+"experience. You can choose which types of cookies to enable."
+msgstr ""
+"אנו משתמשים בעוגיות כדי להבטיח את תפקוד האתר ולשפר את חוויית המשתמש. אפשר "
+"לבחור אילו סוגי עוגיות להפעיל."
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:212
+#: public/class-atr-simple-cookie-consent-banner-public.php:390
+msgid "Accept All"
+msgstr "קבל הכל"
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:213
+#: public/class-atr-simple-cookie-consent-banner-public.php:391
+msgid "Loading..."
+msgstr "טוען..."
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:216
+#: public/class-atr-simple-cookie-consent-banner-public.php:394
+msgid "Reject Non-Essential"
+msgstr "הסר לא הכרחיות"
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:219
+#: public/class-atr-simple-cookie-consent-banner-public.php:397
+msgid "Preferences"
+msgstr "העדפות"
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:225
+#: public/class-atr-simple-cookie-consent-banner-public.php:403
+msgid "Cookie Selection"
+msgstr "בחירת עוגיות"
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:226
+#: public/class-atr-simple-cookie-consent-banner-public.php:404
+msgid "Essential (Required)"
+msgstr "הכרחיות (נדרשות)"
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:227
+#: public/class-atr-simple-cookie-consent-banner-public.php:405
+msgid "Analytics (Google Analytics)"
+msgstr "אנליטיקה (Google Analytics)"
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:228
+#: public/class-atr-simple-cookie-consent-banner-public.php:406
+msgid "Marketing/Advertising (Facebook/Ads)"
+msgstr "שיווק/פרסום (Facebook/Ads)"
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:231
+#: public/class-atr-simple-cookie-consent-banner-public.php:411
+msgid "Save Choices"
+msgstr "שמור את הבחירה"
+
+#: includes/class-atr-simple-cookie-consent-banner-public.php:234
+#: public/class-atr-simple-cookie-consent-banner-public.php:414
+msgid "Cancel"
+msgstr "בטל"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:108
+msgid "ATR Cookie Consent Banner Options"
+msgstr "אפשרויות הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:109
+msgid "Cookie Consent Banner"
+msgstr "הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:116
+msgid "ATR Cookie Consent Banner Docs"
+msgstr "תיעוד הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:117
+msgid "Docs (ATR Cookie Banner)"
+msgstr "תיעוד (הסכמה לעוגיות ומדיניות פרטיות - ישראל)"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:124
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:161
+msgid "Cookie Consent Banner Testing Guide"
+msgstr "מדריך בדיקה להסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:133
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:134
+msgid "ATR Cookie Consent Banner"
+msgstr "הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:145
+msgid "Cookie Consent Banner Options"
+msgstr "אפשרויות הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:153
+#, fuzzy
+#| msgid "ATR Cookie Consent Banner Docs"
+msgid "Cookie Consent Banner Docs"
+msgstr "תיעוד הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:154
+#: admin/class-atr-cookie-notice-admin.php:169
+msgid "Documentation"
+msgstr "תיעוד"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:179
+msgid "Docs"
+msgstr "תיעוד"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:229
+msgid "README not found."
+msgstr "קובץ README לא נמצא."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:263
+msgid "Testing Guide not found."
+msgstr "מדריך הבדיקה לא נמצא."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:291
+#: admin/class-atr-cookie-notice-admin-settings.php:384
+msgid "General Settings"
+msgstr "הגדרות כלליות"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:292
+msgid "Configure the basic behavior of the cookie consent banner."
+msgstr "הגדר את ההתנהגות הבסיסית של הסכמה לעוגיות ומדיניות פרטיות - ישראל."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:296
+#: admin/class-atr-cookie-notice-admin-settings.php:389
+msgid "Enable Cookie Banner"
+msgstr "הפעל הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:297
+msgid "Show the cookie consent banner to visitors."
+msgstr "הצג את הסכמה לעוגיות ומדיניות פרטיות - ישראל למבקרים."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:303
+msgid "Banner Position"
+msgstr "מיקום הבאנר"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:304
+msgid "Choose where the banner appears on the page."
+msgstr "בחר איפה הבאנר יופיע בעמוד."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:307
+msgid "Bottom"
+msgstr "תחתית"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:308
+msgid "Top"
+msgstr "עליון"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:309
+msgid "Overlay (Center)"
+msgstr "שכבה (מרכז)"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:315
+msgid "Auto-hide Delay (seconds)"
+msgstr "עיכוב הסתרה אוטומטית (שניות)"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:316
+msgid ""
+"Automatically hide the banner after this many seconds (0 = no auto-hide)."
+msgstr "הסתר את הבאנר אוטומטית אחרי מספר שניות זה (0 = ללא הסתרה אוטומטית)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:325
+msgid "Cookie Categories"
+msgstr "קטגוריות עוגיות"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:326
+msgid "Configure which cookie categories to show and their default states."
+msgstr "הגדר אילו קטגוריות עוגיות להציג ומצבן ברירת המחדל."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:330
+msgid "Show Analytics Cookies"
+msgstr "הצג עוגיות אנליטיקה"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:331
+msgid "Display the analytics cookies option in the banner."
+msgstr "הצג את אפשרות עוגיות האנליטיקה בבאנר."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:337
+msgid "Show Marketing Cookies"
+msgstr "הצג עוגיות שיווק"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:338
+msgid "Display the marketing cookies option in the banner."
+msgstr "הצג את אפשרות עוגיות השיווק בבאנר."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:344
+msgid "Analytics Cookies Default"
+msgstr "ברירת מחדל לעוגיות אנליטיקה"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:345
+msgid "Default state for analytics cookies (checked = enabled by default)."
+msgstr "מצב ברירת מחדל לעוגיות אנליטיקה (מסומן = מופעל כברירת מחדל)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:351
+msgid "Marketing Cookies Default"
+msgstr "ברירת מחדל לעוגיות שיווק"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:352
+msgid "Default state for marketing cookies (checked = enabled by default)."
+msgstr "מצב ברירת מחדל לעוגיות שיווק (מסומן = מופעל כברירת מחדל)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:360
+#: admin/class-atr-cookie-notice-admin-settings.php:453
+msgid "Styling & Appearance"
+msgstr "עיצוב ומראה"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:361
+msgid "Customize the appearance of the cookie consent banner."
+msgstr "התאם אישית את המראה של הסכמה לעוגיות ומדיניות פרטיות - ישראל."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:365
+msgid "Primary Color"
+msgstr "צבע ראשי"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:366
+msgid "Main color for buttons and highlights (hex code)."
+msgstr "צבע ראשי לכפתורים והדגשות (קוד hex)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:373
+msgid "Text Color"
+msgstr "צבע טקסט"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:374
+msgid "Color for text content (hex code)."
+msgstr "צבע לתוכן הטקסט (קוד hex)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:381
+msgid "Background Color"
+msgstr "צבע רקע"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:382
+msgid "Background color for the banner (hex code)."
+msgstr "צבע הרקע של הבאנר (קוד hex)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:389
+msgid "Custom CSS"
+msgstr "CSS מותאם אישית"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:390
+msgid "Additional CSS rules to customize the banner appearance."
+msgstr "כללי CSS נוספים להתאמה אישית של מראה הבאנר."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:399
+msgid "Advanced Options"
+msgstr "אפשרויות מתקדמות"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:400
+msgid "Advanced configuration options for developers."
+msgstr "אפשרויות הגדרה מתקדמות למפתחים."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:404
+msgid "Enable Debug Mode"
+msgstr "הפעל מצב דיבאג"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:405
+msgid "Show debug information in browser console (for development only)."
+msgstr "הצג מידע דיבאג בקונסול הדפדפן (לפיתוח בלבד)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:411
+msgid "Cookie Expiry (days)"
+msgstr "תוקף עוגיות (ימים)"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:412
+msgid "How long to remember user consent (in days)."
+msgstr "כמה זמן לזכור את הסכמת המשתמש (בימים)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:419
+msgid "WooCommerce Integration"
+msgstr "אינטגרציה עם WooCommerce"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:420
+msgid ""
+"Add privacy policy checkbox to WooCommerce checkout (requires WooCommerce)."
+msgstr ""
+"הוסף תיבת סימון מדיניות פרטיות לתהליך התשלום של WooCommerce (נדרש "
+"WooCommerce)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:621
+msgid "Primary color must be a valid hex color code (e.g., #0073aa)."
+msgstr "צבע ראשי חייב להיות קוד צבע hex תקין (למשל, #0073aa)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:633
+msgid "Text color must be a valid hex color code (e.g., #333333)."
+msgstr "צבע טקסט חייב להיות קוד צבע hex תקין (למשל, #333333)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:645
+msgid "Background color must be a valid hex color code (e.g., #ffffff)."
+msgstr "צבע רקע חייב להיות קוד צבע hex תקין (למשל, #ffffff)."
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:430
+msgid "Global Form Integration"
+msgstr "אינטגרציה גלובלית של טפסים"
+
+#: admin/class-atr-simple-cookie-consent-banner-settings.php:431
+msgid ""
+"Add privacy policy checkbox to all forms on the website (contact forms, "
+"comment forms, etc.)."
+msgstr ""
+"הוסף תיבת סימון מדיניות פרטיות לכל הטפסים באתר (טפסי יצירת קשר, טפסי תגובות "
+"וכו')."
+
+#: includes/class-atr-simple-cookie-consent-banner-forms.php:89
+msgid "You must accept the privacy policy before posting a comment."
+msgstr "עליך לקבל את מדיניות הפרטיות לפני פרסום תגובה."
+
+# New strings added in POT 2025-09-09
+#: admin/class-atr-cookie-notice-admin-settings.php:123
+#: admin/class-atr-cookie-notice-admin-settings.php:124
+#: admin/class-atr-cookie-notice-admin.php:120
+msgid "ATR Cookie Notice"
+msgstr "הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:137
+#: admin/class-atr-cookie-notice-admin-settings.php:138
+msgid "ATR Cookie Notice Settings"
+msgstr "הגדרות הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:147
+#: admin/class-atr-cookie-notice-admin-settings.php:148
+msgid "ATR Cookie Notice Documentation"
+msgstr "תיעוד הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:229
+msgid "Privacy policy not found."
+msgstr "מדיניות הפרטיות לא נמצאה."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:243
+msgid "Hebrew"
+msgstr "עברית"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:243
+msgid "English"
+msgstr "אנגלית"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:252
+msgid "Plugin information not found."
+msgstr "מידע על התוסף לא נמצא."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:317
+msgid "Cookie Notice — Documentation"
+msgstr "הסכמה לעוגיות ומדיניות פרטיות - ישראל — תיעוד"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:338
+msgid "Language can be changed in the Localization settings."
+msgstr "ניתן לשנות את השפה בהגדרות לוקליזציה."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:385
+msgid "Configure the basic behavior of the cookie notice."
+msgstr "הגדר את ההתנהגות הבסיסית של הסכמה לעוגיות ומדיניות פרטיות - ישראל."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:390
+msgid "Show the cookie notice to visitors."
+msgstr "הצג את הסכמה לעוגיות ומדיניות פרטיות - ישראל למבקרים."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:454
+msgid "Customize the appearance of the cookie notice."
+msgstr "התאם את מראה הסכמה לעוגיות ומדיניות פרטיות - ישראל."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:715
+#: admin/class-atr-cookie-notice-admin-settings.php:823
+msgid "Insufficient permissions."
+msgstr "הרשאות אינן מספיקות."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:715
+msgid "Insufficient permissions to modify settings."
+msgstr "אין הרשאות מספיקות לשינוי הגדרות."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:718
+msgid "Security check failed. Please try again."
+msgstr "בדיקת האבטחה נכשלה. נסו שוב."
+
+#. translators: %s: Hex color like #0073aa
+#: admin/class-atr-cookie-notice-admin-settings.php:795
+msgid "%s must be a valid hex color code (e.g., #0073aa)."
+msgstr "%s חייב להיות קוד צבע הקס תקין (לדוגמה, #0073aa)."
+
+#: admin/class-atr-cookie-notice-admin-settings.php:829
+msgid "Cookie Notice Settings"
+msgstr "הגדרות הסכמה לעוגיות ומדיניות פרטיות - ישראל"
+
+#: admin/class-atr-cookie-notice-admin-settings.php:830
+msgid "Configure the cookie notice behavior and appearance."
+msgstr "הגדירו את התנהגות ומראה הסכמה לעוגיות ומדיניות פרטיות - ישראל."
+
+# Review notice strings
+# Translators: %s is the plugin name wrapped in <strong> tags
+#: admin/class-atr-cookie-notice-admin.php:162
+msgid ""
+"Enjoying %s? If it’s been helpful, please consider a 5‑star review on "
+"WordPress.org. Your feedback helps us improve. Thank you!"
+msgstr ""
+"נהנים מ%s? אם התוסף היה לכם לעזר, נשמח לביקורת 5 כוכבים ב‑WordPress.org. "
+"המשוב שלכם עוזר לנו להשתפר. תודה!"
+
+#: admin/class-atr-cookie-notice-admin.php:169
+msgid "Leave a 5‑star review"
+msgstr "השאירו ביקורת 5 כוכבים"
+
+#: admin/class-atr-cookie-notice-admin.php:170
+msgid "No, thanks"
+msgstr "לא, תודה"
+
+#: admin/class-atr-cookie-notice-admin.php:170
+msgid "Support"
+msgstr "תמיכה"
+
+#: admin/class-atr-cookie-notice-admin.php:171
+msgid "Leave a review ★★★★★"
+msgstr "השאירו ביקורת ★★★★★"
+
+#~ msgid "Open Documentation"
+#~ msgstr "פתח תיעוד"
+
+#~ msgid ""
+#~ "Review the documentation to configure the cookie banner in line with "
+#~ "Israel's Privacy Protection Law (Amendment 13)."
+#~ msgstr ""
+#~ "עיינו בתיעוד כדי להגדיר את התוסף הסכמה לעוגיות ומדיניות פרטיות - ישראל "
+#~ "בהתאם לחוק הגנת הפרטיות (תיקון 13)."

@@ -1,0 +1,110 @@
+/**
+ * All of the CSS for your admin-specific functionality should be
+ * included in this file.
+ */
+
+/* Prominent cache reminder after saving settings */
+.atr-scb-cache-reminder {
+    border-left-width: 4px !important;
+    background: #fcf0f1;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+}
+.atr-scb-cache-reminder .button-primary {
+    margin-right: 8px;
+}
+
+/* Docs page layout and tabs */
+.atr-scb-docs .card {
+    max-width: none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.atr-scb-docs pre {
+    background: #f6f7f7;
+    padding: 12px;
+    overflow: auto;
+}
+
+.atr-scb-docs code {
+    font-family: Menlo, Monaco, Consolas, monospace;
+}
+
+.atr-scb-docs .card p {
+    margin: 0 0 12px;
+}
+
+.atr-scb-tabs {
+    margin: 20px 0 0 0;
+}
+
+.atr-scb-tab-nav {
+    border-bottom: 1px solid #ccd0d4;
+    margin-bottom: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+}
+
+.atr-scb-tab-nav li {
+    margin: 0;
+    padding: 0;
+}
+
+.atr-scb-tab-nav a {
+    display: inline-block;
+    padding: 8px 12px;
+    margin-right: 5px;
+    text-decoration: none;
+    border: 1px solid #ccd0d4;
+    border-bottom: none;
+    background: #f1f1f1;
+    color: #555;
+    border-radius: 4px 4px 0 0;
+}
+
+.atr-scb-tab-nav a.active {
+    background: #fff;
+    color: #000;
+    border-bottom: 1px solid #fff;
+    margin-bottom: -1px;
+}
+
+.atr-scb-tab-content {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ccd0d4;
+    border-top: none;
+    background: #fff;
+}
+
+.atr-scb-tab-content.active {
+    display: block;
+}
+
+/* Settings tabs (admin settings page) */
+.settings-tabs .nav-tab {
+    cursor: pointer;
+}
+
+/* Live Preview: keep at top of settings page (first in .wrap), normal flow */
+.atr-scb-live-preview.atr-scb-preview-top {
+    clear: both;
+    float: none;
+    order: -1; /* if parent is flex, show first */
+}
+.atr-scb-live-preview {
+    background: #fff;
+    padding: 12px;
+    border: 1px solid #ccd0d4;
+    max-width: 760px;
+    box-sizing: border-box;
+}
+
+/* Only when Styling tab is active: stick preview to top while scrolling */
+.atr-scb-live-preview.atr-scb-preview-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
