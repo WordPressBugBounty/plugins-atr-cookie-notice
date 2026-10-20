@@ -95,7 +95,6 @@ class Atr_Cookie_Notice {
 		$this->atr_cookie_notice_define_admin_hooks();
 		$this->atr_cookie_notice_define_public_hooks();
 		// Forms integration removed
-
 	}
 
 	/**
@@ -120,32 +119,31 @@ class Atr_Cookie_Notice {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-atr-cookie-notice-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-atr-cookie-notice-loader.php';
 
 		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-atr-cookie-notice-i18n.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-atr-cookie-notice-i18n.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-atr-cookie-notice-admin.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-atr-cookie-notice-admin.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-atr-cookie-notice-public.php';
+		require_once plugin_dir_path( __DIR__ ) . 'public/class-atr-cookie-notice-public.php';
 
 		/**
 		 * Utilities shared across the plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-atr-cookie-notice-utils.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-atr-cookie-notice-utils.php';
 
 		$this->loader = new Atr_Cookie_Notice_Loader();
-
 	}
 
 	/**
@@ -162,7 +160,6 @@ class Atr_Cookie_Notice {
 		$plugin_i18n = new Atr_Cookie_Notice_i18n();
 
 		$this->loader->add_action( 'plugins_loaded', $plugin_i18n, 'atr_cookie_notice_load_plugin_textdomain' );
-
 	}
 
 	/**
@@ -179,20 +176,21 @@ class Atr_Cookie_Notice {
 		// Ensure color picker is available early for any scripts that assume it exists
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'atr_cookie_notice_enqueue_colorpicker_early', 1 );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'atr_cookie_notice_enqueue_styles' );
-        $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'atr_cookie_notice_enqueue_scripts' );
-        // Review notice scheduling and dismissal handled within Admin class via admin_init hooks
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'atr_cookie_notice_enqueue_scripts' );
+		// Review notice scheduling and dismissal handled within Admin class via admin_init hooks
 
-		$plugin_settings = new Atr_Cookie_Notice_Admin_Settings($this->plugin_name, 'atr-cookie-notice', $this->version);
-        $this->loader->add_action('admin_menu', $plugin_settings, 'add_submenu_item');
+		$plugin_settings = new Atr_Cookie_Notice_Admin_Settings( $this->plugin_name, 'atr-cookie-notice', $this->version );
+		$this->loader->add_action( 'admin_menu', $plugin_settings, 'add_submenu_item' );
 		$plugin_basename = $this->plugin_name . '/' . 'atr-cookie-notice.php';
-		$this->loader->add_filter('plugin_action_links_' . $plugin_basename, $plugin_settings, 'add_action_links');
+		$this->loader->add_filter( 'plugin_action_links_' . $plugin_basename, $plugin_settings, 'add_action_links' );
 
 		// Row meta links on Plugins screen (Documentation, Support, Review)
 		$this->loader->add_filter( 'plugin_row_meta', $plugin_admin, 'atr_cookie_notice_row_meta', 10, 2 );
 
-        // Review notice schedule and dismissal
-        $this->loader->add_action( 'admin_init', $plugin_admin, 'atr_cookie_notice_maybe_schedule_review_notice' );
-        $this->loader->add_action( 'admin_init', $plugin_admin, 'atr_cookie_notice_handle_review_dismiss' );
+		// Review notice schedule and dismissal
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'atr_cookie_notice_maybe_schedule_review_notice' );
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'atr_cookie_notice_handle_review_dismiss' );
+		$this->loader->add_action( 'wp_ajax_atr_cookie_notice_dismiss_notice', $plugin_admin, 'atr_cookie_notice_dismiss_notice' );
 	}
 
 	/**
@@ -209,10 +207,10 @@ class Atr_Cookie_Notice {
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'atr_cookie_notice_enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'atr_cookie_notice_enqueue_scripts' );
 
-		$this->loader->add_action('wp_head', $plugin_public, 'block_tracking_scripts', 1);
-		$this->loader->add_action('wp_footer', $plugin_public, 'block_tracking_scripts', 1);
-		$this->loader->add_action('wp_footer', $plugin_public, 'inject_banner_html');
-
+		$this->loader->add_action( 'wp_head', $plugin_public, 'block_tracking_scripts', 1 );
+		$this->loader->add_action( 'wp_footer', $plugin_public, 'block_tracking_scripts', 1 );
+		$this->loader->add_action( 'wp_footer', $plugin_public, 'inject_banner_html' );
+		$this->loader->add_action( 'init', $plugin_public, 'atr_cookie_notice_register_shortcodes' );
 	}
 
 	/**
@@ -254,6 +252,4 @@ class Atr_Cookie_Notice {
 	public function atr_cookie_notice_get_version() {
 		return $this->version;
 	}
-
-
 }

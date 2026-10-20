@@ -1,0 +1,11 @@
+<wpml-config>
+    <admin-texts>
+        <key name="atr-cookie-notice">
+            <key name="simple_text_html" />
+            <key name="simple_actions_html" />
+            <key name="full_text_html" />
+            <key name="full_actions_html" />
+            <key name="full_footer_html" />
+        </key>
+    </admin-texts>
+</wpml-config>

@@ -13,74 +13,37 @@
     margin-right: 8px;
 }
 
-/* Docs page layout and tabs */
-.atr-scb-docs .card {
-    max-width: none;
-    width: 100%;
-    box-sizing: border-box;
+/* Tools block: space between its buttons and the Live Preview below */
+.atr-scb-tools {
+    margin-bottom: 32px;
 }
 
-.atr-scb-docs pre {
-    background: #f6f7f7;
-    padding: 12px;
-    overflow: auto;
+/* Tools: "Reset Styling to defaults" is destructive - red button (WP admin error red) */
+.wp-core-ui .button.atr-scb-reset-style-btn {
+    background: #d63638;
+    border-color: #d63638;
+    color: #fff;
 }
 
-.atr-scb-docs code {
-    font-family: Menlo, Monaco, Consolas, monospace;
+.wp-core-ui .button.atr-scb-reset-style-btn:hover,
+.wp-core-ui .button.atr-scb-reset-style-btn:focus {
+    background: #b32d2e;
+    border-color: #b32d2e;
+    color: #fff;
 }
 
-.atr-scb-docs .card p {
-    margin: 0 0 12px;
+/* Help tab and section link lists */
+.atr-scb-section-desc ul,
+.atr-scb-section-desc ol {
+    margin-inline-start: 1.5em;
 }
 
-.atr-scb-tabs {
-    margin: 20px 0 0 0;
+.atr-scb-section-desc ul {
+    list-style: disc;
 }
 
-.atr-scb-tab-nav {
-    border-bottom: 1px solid #ccd0d4;
-    margin-bottom: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-}
-
-.atr-scb-tab-nav li {
-    margin: 0;
-    padding: 0;
-}
-
-.atr-scb-tab-nav a {
-    display: inline-block;
-    padding: 8px 12px;
-    margin-right: 5px;
-    text-decoration: none;
-    border: 1px solid #ccd0d4;
-    border-bottom: none;
-    background: #f1f1f1;
-    color: #555;
-    border-radius: 4px 4px 0 0;
-}
-
-.atr-scb-tab-nav a.active {
-    background: #fff;
-    color: #000;
-    border-bottom: 1px solid #fff;
-    margin-bottom: -1px;
-}
-
-.atr-scb-tab-content {
-    display: none;
-    padding: 20px;
-    border: 1px solid #ccd0d4;
-    border-top: none;
-    background: #fff;
-}
-
-.atr-scb-tab-content.active {
-    display: block;
+.atr-scb-section-desc li {
+    max-width: 60em;
 }
 
 /* Settings tabs (admin settings page) */
@@ -108,3 +71,27 @@
     top: 0;
     z-index: 10;
 }
+
+/* Theme tracking code notice under the Consent Mode field: hidden while Simple is selected */
+.atr-scb-mode-full-notice { margin-top: 12px; max-width: 760px; }
+.atr-scb-mode-full-notice.atr-scb-is-hidden { display: none; }
+
+/* Live preview banner: minimal preview CSS using the same token names (moved from the settings page markup) */
+.atr-scb-preview .scb-banner{
+    font-family: var(--scb-font-family, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif);
+    font-size: var(--scb-font-size, 14px);
+    color: var(--scb-text, #333);
+    background: var(--scb-bg, #fff);
+    border-radius: var(--scb-radius, 8px);
+    max-width: var(--scb-modal-max, 420px);
+    box-shadow: var(--scb-shadow, 0 8px 24px rgba(0,0,0,.15));
+    padding: var(--scb-pad-y, 16px) var(--scb-pad-x, 20px);
+}
+.atr-scb-preview .scb-content{ display:flex; flex-direction: var(--scb-direction, column); gap: var(--scb-gap, 12px); }
+.atr-scb-preview .scb-text{ text-align: var(--scb-align, left); }
+.atr-scb-preview .scb-actions{ display:flex; gap: var(--scb-gap, 12px); flex-wrap: wrap; }
+.atr-scb-preview .scb-btn{ padding: var(--scb-btn-pad-y, 8px) var(--scb-btn-pad-x, 12px); border-radius: var(--scb-btn-radius, var(--scb-radius, 8px)); border:1px solid #ccc; cursor:pointer; font-weight: var(--scb-btn-weight, 600); }
+.atr-scb-preview .scb-btn-primary{ background: var(--scb-primary-btn-bg, var(--scb-primary, #0b74de)); color: var(--scb-primary-btn-text, #fff); border-color: transparent; text-transform: var(--scb-btn-transform, none); }
+.atr-scb-preview .scb-btn-secondary{ background: var(--scb-secondary-btn-bg, #f7f7f7); color: var(--scb-secondary-btn-text, #333); text-transform: var(--scb-btn-transform, none); }
+.atr-scb-preview .scb-btn-link{ background: transparent; border:none; color: var(--scb-link, #0b74de); text-decoration: underline; text-transform: var(--scb-btn-transform, none); }
+

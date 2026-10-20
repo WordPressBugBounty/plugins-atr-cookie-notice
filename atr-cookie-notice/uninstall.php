@@ -29,3 +29,28 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+/**
+ * Delete the plugin's options for the current site.
+ *
+ * @since 1.3.0
+ * @return void
+ */
+function atr_cookie_notice_uninstall_site() {
+	delete_option( 'atr-cookie-notice' );
+	delete_option( 'atr_cookie_notice_activation_time' );
+	delete_option( 'atr_cookie_notice_dismiss_review' );
+}
+
+if ( is_multisite() ) {
+	foreach ( get_sites( array( 'fields' => 'ids' ) ) as $atr_cookie_notice_site_id ) {
+		switch_to_blog( $atr_cookie_notice_site_id );
+		atr_cookie_notice_uninstall_site();
+		restore_current_blog();
+	}
+} else {
+	atr_cookie_notice_uninstall_site();
+}
+
+// Legacy per-user flag from older versions (user meta is network-wide).
+delete_metadata( 'user', 0, 'atr_cookie_notice_notice_dismissed', '', true );

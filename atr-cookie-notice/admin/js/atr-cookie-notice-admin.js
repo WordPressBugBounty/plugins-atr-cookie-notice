@@ -3,7 +3,7 @@
 	// Settings screen tabbed navigation behavior
 	$(function(){
 		var headings = $('.settings-container > h2, .settings-container > h3');
-		var paragraphs = $('.settings-container > p');
+		var paragraphs = $('.settings-container > .atr-scb-section-desc');
 		var tables = $('.settings-container > table');
 		var triggers = $('.settings-tabs a');
 
@@ -25,25 +25,6 @@
 		if (triggers.length) {
 			triggers.eq(0).trigger('click');
 		}
-	});
-
-	// Docs page tabs behavior
-	$(function(){
-		var docLinks = $('.atr-scb-tab-link');
-		var docContents = $('.atr-scb-tab-content');
-		if (!docLinks.length) return;
-
-		docLinks.on('click', function(e){
-			e.preventDefault();
-			docLinks.removeClass('active');
-			docContents.removeClass('active');
-			$(this).addClass('active');
-			var target = $(this).attr('href');
-			$(target).addClass('active');
-		});
-
-		// Ensure first tab is active on load
-		docLinks.eq(0).trigger('click');
 	});
 
 	// Handle dismiss of the admin notice using localized data
@@ -147,22 +128,14 @@
 		};
 	}
 	function atrScbApplyPreview() {
-		var styleEl = document.getElementById('atr-scb-preview-style');
-		if (!styleEl) return;
 		var result = atrScbBuildPreviewVars();
-		var cssVars = result.cssText;
-		var css = '';
-		if (cssVars) {
-			css += '.atr-scb-preview .scb-banner{' + cssVars + ';}';
-		}
-		styleEl.textContent = css;
 
 		// Force override class
 		var force = atrScbIsChecked('force_override_theme_styles');
 		var banner = document.querySelector('.atr-scb-preview .scb-banner');
 		if (banner) {
 			banner.classList.toggle('scb-force', !!force);
-			// Also set variables directly on the element style for immediate effect
+			// Set the CSS variables directly on the preview element
 			var map = result.map || {};
 			Object.keys(map).forEach(function(k){
 				try { banner.style.setProperty(k, map[k]); } catch(e) {}
@@ -202,6 +175,11 @@
 		// Listen to changes in the settings form
 		$('.settings-container').on('input change keyup paste', 'input, select, textarea', function(){
 			atrScbApplyPreview();
+		});
+
+		// Consent Mode: the theme tracking code notice is relevant only to Full mode
+		$('#banner_mode').on('change', function(){
+			$('.atr-scb-mode-full-notice').toggleClass('atr-scb-is-hidden', $(this).val() !== 'full');
 		});
 
 		// Design presets (populate fields on change)

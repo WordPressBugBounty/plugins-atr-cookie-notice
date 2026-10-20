@@ -25,8 +25,8 @@
   }
 
   // Prevent multiple initializations
-  if (window.scbInitialized) return;
-  window.scbInitialized = true;
+  if (window.atrCookieNoticeInitialized) return;
+  window.atrCookieNoticeInitialized = true;
 
   // Cookie helpers: unify set/clear with SameSite/Lax and Secure on HTTPS
   function setCookie(key, val, { maxAgeSeconds = null } = {}) {
@@ -62,9 +62,15 @@
     try {
       localStorage.setItem(name, JSON.stringify(obj));
     } catch (e) {
-      // fallback to cookie
-      setCookie(name, JSON.stringify(obj), { maxAgeSeconds: expiryDays * 24 * 60 * 60 });
+      // Storage unavailable; the cookie below still holds the decision
     }
+    // Always write the cookie too: the server reads it to decide what to block
+    setCookie(name, JSON.stringify(obj), { maxAgeSeconds: expiryDays * 24 * 60 * 60 });
+  }
+
+  // Stored consent older than the configured expiry is ignored (localStorage never expires on its own)
+  function isExpired(parsed) {
+    return typeof parsed.ts === 'number' && (Date.now() - parsed.ts) > expiryDays * 24 * 60 * 60 * 1000;
   }
 
   function getConsent() {
@@ -74,13 +80,16 @@
         const parsed = JSON.parse(v);
         // Validate that consent has required fields
         if (parsed && typeof parsed === 'object' && parsed.essential === true) {
-          return parsed;
+          if (!isExpired(parsed)) {
+            return parsed;
+          }
+          localStorage.removeItem(name);
         }
       }
     } catch (e) {
       // Silent error handling
     }
-    
+
     // fallback read cookie
     try {
       const match = document.cookie.match(
@@ -89,15 +98,27 @@
       if (match) {
         const parsed = JSON.parse(decodeURIComponent(match[2]));
         // Validate that consent has required fields
-        if (parsed && typeof parsed === 'object' && parsed.essential === true) {
+        if (parsed && typeof parsed === 'object' && parsed.essential === true && !isExpired(parsed)) {
           return parsed;
         }
       }
     } catch (e) {
       // Silent error handling
     }
-    
+
     return null;
+  }
+
+  // Withdraw consent: forget the stored decision and reload so the banner asks again
+  function clearConsent() {
+    try {
+      localStorage.removeItem(name);
+    } catch (e) {
+      // Silent error handling
+    }
+    deleteCookie(name);
+    deleteCookie(decisionCookieName);
+    location.reload();
   }
 
   function consentGivenFor(key) {
@@ -326,11 +347,6 @@
     }
   }
 
-  // Global function for the close button onclick
-  window.scbCloseModal = function() {
-    hideBanner();
-  };
-
   function setLoadingState(loading) {
     const banner = document.getElementById("scb-banner");
     if (banner) {
@@ -360,7 +376,13 @@
     
     if (stored) {
       // User has already given consent - activate scripts and don't show banner
-      
+
+      // Consent saved by 1.2.0 lives only in localStorage; copy it to the cookie the server reads
+      if (!document.cookie.match(new RegExp("(^| )" + name + "="))) {
+        const ageSeconds = typeof stored.ts === 'number' ? Math.max(0, (Date.now() - stored.ts) / 1000) : 0;
+        setCookie(name, JSON.stringify(stored), { maxAgeSeconds: expiryDays * 24 * 60 * 60 - ageSeconds });
+      }
+
       // Ensure banner is hidden
       banner.classList.remove('visible');
       overlay.classList.remove('visible', 'privacy-page');
@@ -401,6 +423,12 @@
     const btnReject = document.getElementById("scb-btn-reject");
     const btnCustom = document.getElementById("scb-btn-custom");
     const btnCancel = document.getElementById("scb-btn-cancel");
+    const btnClose = banner.querySelector(".scb-close");
+
+    btnClose &&
+      btnClose.addEventListener("click", function () {
+        hideBanner();
+      });
 
     btnAcceptAll &&
       btnAcceptAll.addEventListener("click", function () {
@@ -494,10 +522,16 @@
         if (c.analytics || c.marketing) {
           restoreTrackingFunctions();
         }
-        
+
         setTimeout(() => {
           hideBanner();
           setLoadingState(false);
+          // Reload so the server stops printing the blockers for the allowed categories
+          if (c.analytics || c.marketing) {
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          }
         }, 300);
       });
     }
@@ -532,16 +566,16 @@
   
   // Check if consent is already given before setting up blocking
   const initialConsent = getConsent();
-  const shouldBlock = !initialConsent || (!initialConsent.analytics && !initialConsent.marketing);
-  
+  const shouldBlock = !initialConsent || !initialConsent.analytics || !initialConsent.marketing;
+
   // Simple and effective tracking function blocking - wait for scripts to load first
+  // Each category is blocked only while the visitor has not consented to it
   function setupTrackingBlocking() {
-    // Check if consent has already been given - don't block if it has
     const currentConsent = getConsent();
-    if (currentConsent && (currentConsent.analytics || currentConsent.marketing)) {
-      return;
-    }
-    
+    const blockAnalytics = !(currentConsent && currentConsent.analytics);
+    const blockMarketing = !(currentConsent && currentConsent.marketing);
+
+    if (blockAnalytics) {
     // Block gtag
     if (window.gtag) {
       if (window.gtag && !window.gtag._scbBlocked) {
@@ -575,7 +609,21 @@
       };
       window.ga._scbBlocked = true;
     }
-    
+
+    // Block dataLayer.push
+    if (window.dataLayer) {
+      if (window.dataLayer && window.dataLayer.push && !window.dataLayer.push._scbBlocked) {
+        window.dataLayer._originalPush = window.dataLayer.push;
+        window.dataLayer.push._scbBlocked = true;
+        window.dataLayer.push = function() {
+          return false;
+        };
+
+      }
+    }
+    }
+
+    if (blockMarketing) {
     // Block fbq
     if (window.fbq) {
       if (window.fbq && !window.fbq._scbBlocked) {
@@ -592,19 +640,7 @@
       };
       window.fbq._scbBlocked = true;
     }
-    
-    // Block dataLayer.push
-    if (window.dataLayer) {
-      if (window.dataLayer && window.dataLayer.push && !window.dataLayer.push._scbBlocked) {
-        window.dataLayer._originalPush = window.dataLayer.push;
-        window.dataLayer.push._scbBlocked = true;
-        window.dataLayer.push = function() {
-          return false;
-        };
-
-      }
     }
-    
 
   }
 
@@ -640,27 +676,31 @@
     
     // Also block after a delay to catch any late-loading scripts
     setTimeout(() => {
-      // Check if consent has already been given - don't re-block if it has
-      const currentConsent = getConsent();
-      if (currentConsent && (currentConsent.analytics || currentConsent.marketing)) {
-        return;
-      }
-      
+      // Re-check per category (setupTrackingBlocking skips consented categories)
       setupTrackingBlocking();
     }, 2000); // Wait 2 seconds for any late scripts
 
     // When debug is enabled, trigger a non-invasive test after setup
     if (enableDebug) {
       setTimeout(() => {
-        if (window.scb && window.scb.testTracking) {
-          window.scb.testTracking();
+        if (window.atrCookieNotice && window.atrCookieNotice.testTracking) {
+          window.atrCookieNotice.testTracking();
         }
       }, 500);
     }
   }
 
+  // "Cookie settings" links (shortcode [atr_cookie_notice_settings]): withdraw/change consent
+  document.addEventListener("click", function (e) {
+    const link = e.target && e.target.closest ? e.target.closest(".atr-cookie-notice-settings-link") : null;
+    if (link) {
+      e.preventDefault();
+      clearConsent();
+    }
+  });
+
   // expose API (includes testing helper only when debug is enabled)
-  window.scb = {
+  window.atrCookieNotice = {
     getConsent,
     saveConsent,
     consentGivenFor,
@@ -668,16 +708,7 @@
     showBanner,
     hideBanner,
     restoreTrackingFunctions,
-    clearConsent: function() {
-      try {
-        localStorage.removeItem(name);
-        document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        document.cookie = decisionCookieName + '=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-        location.reload(); // Reload to test banner again
-      } catch (e) {
-        // Silent error handling
-      }
-    },
+    clearConsent,
     forceShow: function() {
       showBanner();
     },
@@ -697,24 +728,29 @@
     },
   };
   
-  // Debug: Log that scb object was created
+  // Deprecated alias kept for sites that call window.scb (documented in 1.2.0); never overwrites another script's scb
+  if (typeof window.scb === 'undefined') {
+    window.scb = window.atrCookieNotice;
+  }
+
+  // Debug: Log that the API object was created
   if (enableDebug) {
     console.log('ATR Cookie Notice: Script loading...');
-    console.log('ATR Cookie Notice: scb object created', window.scb);
+    console.log('ATR Cookie Notice: atrCookieNotice object created', window.atrCookieNotice);
     console.log('ATR Cookie Notice: Debug mode enabled');
   }
 })();
 
-// Fallback: Ensure window.scb is always available (run after IIFE)
+// Fallback: Ensure window.atrCookieNotice is always available (run after IIFE)
 setTimeout(function() {
-  if (typeof window.scb === 'undefined') {
+  if (typeof window.atrCookieNotice === 'undefined') {
     var debug = !!(window.atrCookieNoticeSettings && window.atrCookieNoticeSettings.enableDebug);
     if (debug && window.console && console.warn) {
-      console.warn('ATR Cookie Notice: scb object not created, providing fallback');
+      console.warn('ATR Cookie Notice: atrCookieNotice object not created, providing fallback');
     }
     var cn = (window.atrCookieNoticeSettings && window.atrCookieNoticeSettings.cookieName) ? window.atrCookieNoticeSettings.cookieName : 'atr_cookie_notice_consent';
     var decisionCn = (window.atrCookieNoticeSettings && window.atrCookieNoticeSettings.decisionCookieName) ? window.atrCookieNoticeSettings.decisionCookieName : 'atr_cookie_notice_consent_given';
-    window.scb = {
+    window.atrCookieNotice = {
       getConsent: function() {
         try {
           var v = localStorage.getItem(cn);
@@ -758,6 +794,9 @@ setTimeout(function() {
       forceShow: function() { return false; },
       testTracking: function() { return false; }
     };
+    if (typeof window.scb === 'undefined') {
+      window.scb = window.atrCookieNotice;
+    }
   }
 }, 100);
 

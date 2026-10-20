@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 /**
@@ -33,7 +33,5 @@ class Atr_Cookie_Notice_Activator {
 	 * @since    1.0.0
 	 */
 	public static function atr_cookie_notice_activate() {
-
 	}
-
 }

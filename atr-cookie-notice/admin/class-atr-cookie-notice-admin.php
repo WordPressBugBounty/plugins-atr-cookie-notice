@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 /**
@@ -56,16 +56,15 @@ class Atr_Cookie_Notice_Admin {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of this plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version, $utils = null ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
-		$this->utils = $utils instanceof Atr_Cookie_Notice_Utils ? $utils : null;
+		$this->version     = $version;
+		$this->utils       = $utils instanceof Atr_Cookie_Notice_Utils ? $utils : null;
 		$this->atr_cookie_notice_admin_settings_load_dependencies();
-
 	}
 
 	/**
@@ -73,11 +72,14 @@ class Atr_Cookie_Notice_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function atr_cookie_notice_enqueue_styles() {
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/atr-cookie-notice-admin.css', array(), $this->version, 'all' );
+	public function atr_cookie_notice_enqueue_styles( $hook_suffix = '' ) {
+		if ( ! $this->atr_cookie_notice_is_plugin_screen( $hook_suffix ) ) {
+			return;
+		}
+		// Version includes the file time, so a changed file is never served from a stale browser cache
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/atr-cookie-notice-admin.css', array(), $this->version . '-' . filemtime( __DIR__ . '/css/atr-cookie-notice-admin.css' ), 'all' );
 		// WP color picker styles for color inputs
 		wp_enqueue_style( 'wp-color-picker' );
-
 	}
 
 	/**
@@ -85,20 +87,36 @@ class Atr_Cookie_Notice_Admin {
 	 *
 	 * @since    1.0.0
 	 */
-	public function atr_cookie_notice_enqueue_scripts() {
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/atr-cookie-notice-admin.js', array( 'jquery', 'wp-color-picker' ), $this->version, true );
+	public function atr_cookie_notice_enqueue_scripts( $hook_suffix = '' ) {
+		if ( ! $this->atr_cookie_notice_is_plugin_screen( $hook_suffix ) ) {
+			return;
+		}
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/atr-cookie-notice-admin.js', array( 'jquery', 'wp-color-picker' ), $this->version . '-' . filemtime( __DIR__ . '/js/atr-cookie-notice-admin.js' ), true );
 
 		// Localize data for admin JS (AJAX URL, nonces, and copy)
 		wp_localize_script(
 			$this->plugin_name,
 			'atrCookieNoticeAdmin',
 			array(
-				'ajaxUrl'             => admin_url( 'admin-ajax.php' ),
-				'dismissNonce'        => wp_create_nonce( 'atr_cookie_notice_dismiss_notice' ),
-				'resetStyleConfirm'   => __( 'Are you sure you want to reset all Styling & Appearance settings to their defaults? This cannot be undone.', 'atr-cookie-notice' ),
+				'ajaxUrl'           => admin_url( 'admin-ajax.php' ),
+				'dismissNonce'      => wp_create_nonce( 'atr_cookie_notice_dismiss_notice' ),
+				'resetStyleConfirm' => __( 'Are you sure you want to reset all Styling & Appearance settings to their defaults? This cannot be undone.', 'atr-cookie-notice' ),
 			)
 		);
+	}
 
+	/**
+	 * Whether admin assets are needed on this screen.
+	 *
+	 * The settings page needs all assets; the Dashboard and Plugins screens
+	 * need them only for the review notice close button.
+	 *
+	 * @since 1.3.0
+	 * @param string $hook_suffix Current admin page hook suffix.
+	 * @return bool
+	 */
+	private function atr_cookie_notice_is_plugin_screen( $hook_suffix ) {
+		return in_array( $hook_suffix, array( 'settings_page_atr-cookie-notice', 'index.php', 'plugins.php' ), true );
 	}
 
 	/**
@@ -108,99 +126,103 @@ class Atr_Cookie_Notice_Admin {
 	 * @since    1.0.0
 	 * @access   private
 	 */
-	private function atr_cookie_notice_admin_settings_load_dependencies()
-	{
+	private function atr_cookie_notice_admin_settings_load_dependencies() {
 		/**
 		 * The class responsible for admin settings of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path(dirname(__FILE__)) .  'admin/class-atr-cookie-notice-admin-settings.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-atr-cookie-notice-admin-settings.php';
 	}
 
-    /**
-     * Enqueue WP color picker as early as possible so other scripts that
-     * (incorrectly) assume globals like wpColorPickerL10n exist won't break.
-     */
-    public function atr_cookie_notice_enqueue_colorpicker_early() {
-        if ( function_exists( 'wp_enqueue_style' ) ) {
-            wp_enqueue_style( 'wp-color-picker' );
-        }
-        if ( function_exists( 'wp_enqueue_script' ) ) {
-            wp_enqueue_script( 'wp-color-picker' );
-        }
-    }
-
-    /**
-     * Schedule and display a friendly 5-star review notice after 14 days.
-     */
-    public function atr_cookie_notice_maybe_schedule_review_notice() {
-        if ( ! current_user_can( 'manage_options' ) ) {
-            return;
-        }
-        if ( ! get_option( 'atr_cookie_notice_activation_time' ) ) {
-            update_option( 'atr_cookie_notice_activation_time', time() );
-        }
-
-        $activated = (int) get_option( 'atr_cookie_notice_activation_time' );
-        $dismissed = get_option( 'atr_cookie_notice_dismiss_review', '0' ) === '1';
-        $wait_seconds = (int) apply_filters( 'atr_cookie_notice_review_wait_seconds', 14 * DAY_IN_SECONDS );
-        if ( $dismissed || ! $activated || time() <= $activated + $wait_seconds ) {
-            return;
-        }
-
-        global $pagenow;
-        // Also allow on this plugin's settings/docs pages
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only
-        $page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
-        if ( 'index.php' === $pagenow || 'plugins.php' === $pagenow || $page === 'atr-cookie-notice' || $page === 'atr-cookie-notice_docs' ) {
-            add_action( 'admin_notices', array( $this, 'atr_cookie_notice_render_review_notice' ) );
-        }
-    }
-
-    /**
-     * Render the review request notice.
-     */
-    public function atr_cookie_notice_render_review_notice() {
-        $review_url  = 'https://wordpress.org/support/plugin/atr-cookie-notice/reviews/?filter=5#new-post';
-        $dismiss_url = wp_nonce_url( add_query_arg( 'atr_cookie_notice_dismiss_review', '1' ), 'atr_cookie_notice_dismiss_review' );
-        ?>
-        <div class="notice notice-info is-dismissible">
-            <p>
-                <?php
-                echo wp_kses(
-                    sprintf(
-                        /* translators: %s: Plugin name bold */
-                        esc_html__( 'Enjoying %s? If it’s been helpful, please consider a 5‑star review on WordPress.org. Your feedback helps us improve. Thank you!', 'atr-cookie-notice' ),
-                        '<strong>ATR Cookie Notice</strong>'
-                    ),
-                    array( 'strong' => array() )
-                );
-                ?>
-                <br /><br />
-                <a class="button button-primary" target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( $review_url ); ?>"><?php echo esc_html__( 'Leave a 5‑star review', 'atr-cookie-notice' ); ?></a>
-                <a class="button button-secondary" href="<?php echo esc_url( $dismiss_url ); ?>"><?php echo esc_html__( 'No, thanks', 'atr-cookie-notice' ); ?></a>
-            </p>
-        </div>
-        <?php
-    }
-
-    /**
-     * Handle dismissal of review notice (nonce‑protected).
-     */
-    public function atr_cookie_notice_handle_review_dismiss() {
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Using wp_verify_nonce below
-        if ( isset( $_GET['atr_cookie_notice_dismiss_review'] ) ) {
-            $nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
-            if ( wp_verify_nonce( $nonce, 'atr_cookie_notice_dismiss_review' ) ) {
-                update_option( 'atr_cookie_notice_dismiss_review', '1' );
-                wp_safe_redirect( remove_query_arg( array( 'atr_cookie_notice_dismiss_review', '_wpnonce' ) ) );
-                exit;
-            }
-        }
-    }
+	/**
+	 * Enqueue WP color picker as early as possible so other scripts that
+	 * (incorrectly) assume globals like wpColorPickerL10n exist won't break.
+	 */
+	public function atr_cookie_notice_enqueue_colorpicker_early( $hook_suffix = '' ) {
+		if ( ! $this->atr_cookie_notice_is_plugin_screen( $hook_suffix ) ) {
+			return;
+		}
+		if ( function_exists( 'wp_enqueue_style' ) ) {
+			wp_enqueue_style( 'wp-color-picker' );
+		}
+		if ( function_exists( 'wp_enqueue_script' ) ) {
+			wp_enqueue_script( 'wp-color-picker' );
+		}
+	}
 
 	/**
-	 * AJAX handler to dismiss the admin notice for current user.
+	 * Schedule and display a friendly review notice after 14 days.
+	 */
+	public function atr_cookie_notice_maybe_schedule_review_notice() {
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+		if ( ! get_option( 'atr_cookie_notice_activation_time' ) ) {
+			update_option( 'atr_cookie_notice_activation_time', time() );
+		}
+
+		$activated    = (int) get_option( 'atr_cookie_notice_activation_time' );
+		$dismissed    = get_option( 'atr_cookie_notice_dismiss_review', '0' ) === '1';
+		$wait_seconds = (int) apply_filters( 'atr_cookie_notice_review_wait_seconds', 14 * DAY_IN_SECONDS );
+		if ( $dismissed || ! $activated || time() <= $activated + $wait_seconds ) {
+			return;
+		}
+
+		global $pagenow;
+		// Also allow on this plugin's settings page
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- read-only
+		$page = isset( $_GET['page'] ) ? sanitize_key( wp_unslash( $_GET['page'] ) ) : '';
+		if ( 'index.php' === $pagenow || 'plugins.php' === $pagenow || $page === 'atr-cookie-notice' ) {
+			add_action( 'admin_notices', array( $this, 'atr_cookie_notice_render_review_notice' ) );
+		}
+	}
+
+	/**
+	 * Render the review request notice.
+	 */
+	public function atr_cookie_notice_render_review_notice() {
+		$review_url  = 'https://wordpress.org/support/plugin/atr-cookie-notice/reviews/#new-post';
+		$dismiss_url = wp_nonce_url( add_query_arg( 'atr_cookie_notice_dismiss_review', '1' ), 'atr_cookie_notice_dismiss_review' );
+		?>
+		<div id="atr-cookie-notice-admin-notice" class="notice notice-info is-dismissible">
+			<p>
+				<?php
+				echo wp_kses(
+					sprintf(
+						/* translators: %s: Plugin name bold */
+						esc_html__( 'Enjoying %s? If it’s been helpful, please consider leaving a review on WordPress.org. Your feedback helps us improve. Thank you!', 'atr-cookie-notice' ),
+						'<strong>ATR Cookie Notice</strong>'
+					),
+					array( 'strong' => array() )
+				);
+				?>
+				<br /><br />
+				<a class="button button-primary" target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( $review_url ); ?>"><?php echo esc_html__( 'Leave a review', 'atr-cookie-notice' ); ?></a>
+				<a class="button button-secondary" href="<?php echo esc_url( $dismiss_url ); ?>"><?php echo esc_html__( 'No, thanks', 'atr-cookie-notice' ); ?></a>
+			</p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Handle dismissal of review notice (nonce‑protected).
+	 */
+	public function atr_cookie_notice_handle_review_dismiss() {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Using wp_verify_nonce below
+		if ( isset( $_GET['atr_cookie_notice_dismiss_review'] ) && current_user_can( 'manage_options' ) ) {
+			$nonce = isset( $_GET['_wpnonce'] ) ? sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ) : '';
+			if ( wp_verify_nonce( $nonce, 'atr_cookie_notice_dismiss_review' ) ) {
+				update_option( 'atr_cookie_notice_dismiss_review', '1' );
+				wp_safe_redirect( remove_query_arg( array( 'atr_cookie_notice_dismiss_review', '_wpnonce' ) ) );
+				exit;
+			}
+		}
+	}
+
+	/**
+	 * AJAX handler for the review notice close (X) button.
+	 *
+	 * Stores the same dismissal as the "No, thanks" link, so the notice does not return.
 	 *
 	 * @since 1.0.0
 	 * @return void
@@ -210,7 +232,7 @@ class Atr_Cookie_Notice_Admin {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			wp_send_json_error();
 		}
-		update_user_meta( get_current_user_id(), 'atr_cookie_notice_notice_dismissed', 1 );
+		update_option( 'atr_cookie_notice_dismiss_review', '1' );
 		wp_send_json_success();
 	}
 
@@ -228,9 +250,9 @@ class Atr_Cookie_Notice_Admin {
 			return $links;
 		}
 
-		$docs_link   = '<a href="' . esc_url( admin_url( 'admin.php?page=atr-cookie-notice_docs' ) ) . '">' . esc_html__( 'Documentation', 'atr-cookie-notice' ) . '</a>';
+		$docs_link    = '<a href="' . esc_url( Atr_Cookie_Notice_Admin_Settings::get_docs_url() ) . '" target="_blank" rel="noopener">' . esc_html__( 'Documentation', 'atr-cookie-notice' ) . '</a>';
 		$support_link = '<a href="' . esc_url( 'https://atarimtr.co.il/contact/' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Support', 'atr-cookie-notice' ) . '</a>';
-		$review_link = '<a href="' . esc_url( 'https://wordpress.org/support/plugin/atr-cookie-notice/reviews/#new-post' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Leave a review ★★★★★', 'atr-cookie-notice' ) . '</a>';
+		$review_link  = '<a href="' . esc_url( 'https://wordpress.org/support/plugin/atr-cookie-notice/reviews/#new-post' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Leave a review', 'atr-cookie-notice' ) . '</a>';
 
 		$links[] = $docs_link;
 		$links[] = $support_link;

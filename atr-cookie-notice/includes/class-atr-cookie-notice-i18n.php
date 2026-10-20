@@ -1,6 +1,6 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) {
-    exit;
+	exit;
 }
 
 /**
@@ -43,7 +43,4 @@ class Atr_Cookie_Notice_i18n {
 	public function atr_cookie_notice_load_plugin_textdomain() {
 		// No-op: WP >= 4.6 auto-loads translations from the languages directory.
 	}
-
-
-
 }

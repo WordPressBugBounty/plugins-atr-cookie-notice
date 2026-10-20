@@ -59,6 +59,17 @@
     } else { fn(); }
   }
 
+  // "Cookie settings" links (shortcode [atr_cookie_notice_settings]): forget the decision and show the banner again
+  document.addEventListener('click', function(e){
+    var link = e.target && e.target.closest ? e.target.closest('.atr-cookie-notice-settings-link') : null;
+    if (!link) return;
+    e.preventDefault();
+    try { localStorage.removeItem(name); } catch(err) {}
+    setCookie(name, '', { maxAgeSeconds: 0 });
+    setCookie(decisionCookieName, '', { maxAgeSeconds: 0 });
+    location.reload();
+  });
+
   ready(function(){
     var okBtn = document.getElementById('scb-btn-ok');
     if (okBtn) {
