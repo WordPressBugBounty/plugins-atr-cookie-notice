@@ -42,9 +42,13 @@ Full mode disables the Google Analytics and Facebook Pixel functions until conse
 
 To put such code under the banner's control, wrap it with the plugin's consent marker. Change only the opening `<script>` tag:
 
-`<script type="text/plain" data-consent="analytics">` ... your Google Tag Manager / Analytics code ... `</script>`
+    <script type="text/plain" data-consent="analytics">
+      ... your Google Tag Manager / Analytics code ...
+    </script>
 
-`<script type="text/plain" data-consent="marketing">` ... your Facebook Pixel / advertising code ... `</script>`
+    <script type="text/plain" data-consent="marketing">
+      ... your Facebook Pixel / advertising code ...
+    </script>
 
 The browser does not run a `text/plain` script. After the visitor consents to that category, the plugin turns it into a normal script and runs it; if the visitor rejects, it never runs. It works for inline code and for scripts with `src`, wherever they are printed (theme header, `wp_head`, header/footer plugins, page builders). Code that another JavaScript file creates at runtime is not covered. The `<noscript>` parts of Google Tag Manager and Facebook Pixel (an iframe or image in the page body) cannot be wrapped: they load only when JavaScript is off, when no banner can ask for consent, so remove them.
 
@@ -67,9 +71,8 @@ The plugin manages three main cookie categories:
 
 ### Privacy & Compliance
 
-* **Consent Management** - Proper consent tracking and storage
+* **Consent Storage** - The visitor's choice is stored only in their own browser (a cookie and localStorage) for the period set in Advanced Options. The plugin does not keep a record of who accepted or rejected cookies.
 * **Privacy Policy** - [Sample privacy policy](https://atarimtr.com/atr-cookie-notice-sample-privacy-policy/) in Hebrew and English on the plugin's website
-* **Data Protection** - Secure handling of user consent data
 * **Regulatory Alignment** - Oriented to Israel's Privacy Protection Law (PPL), including Amendment 13 (not legal advice)
 
 ### Developer Features
@@ -102,7 +105,7 @@ The plugin works out of the box with default settings, but we recommend customiz
 
 = Does this plugin help with Israel privacy law compliance? =
 
-ATR Cookie Notice is designed to help websites align with Israel's Privacy Protection Law (including Amendment 13). It provides granular consent options, consent tracking, and privacy policy resources. It is not legal advice—verify your requirements with a legal professional.
+ATR Cookie Notice is designed to help websites align with Israel's Privacy Protection Law (including Amendment 13). It provides granular consent options, per-category consent stored in the visitor's browser, and privacy policy resources. It is not legal advice—verify your requirements with a legal professional.
 
 = Can I customize the appearance of the cookie banner? =
 
