@@ -41,9 +41,13 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 כדי להעביר קוד כזה לשליטת הבאנר, עוטפים אותו בסימון ההסכמה של התוסף. משנים רק את תגית ה‑`<script>` הפותחת:
 
-`<script type="text/plain" data-consent="analytics">` ... קוד Google Tag Manager / Analytics ... `</script>`
+    <script type="text/plain" data-consent="analytics">
+      ... קוד Google Tag Manager / Analytics ...
+    </script>
 
-`<script type="text/plain" data-consent="marketing">` ... קוד Facebook Pixel / פרסום ... `</script>`
+    <script type="text/plain" data-consent="marketing">
+      ... קוד Facebook Pixel / פרסום ...
+    </script>
 
 הדפדפן לא מריץ סקריפט מסוג `text/plain`. אחרי שהמבקר מסכים לקטגוריה, התוסף הופך אותו לסקריפט רגיל ומריץ אותו; אם המבקר דוחה, הוא לא רץ אף פעם. זה עובד לקוד ישיר ולסקריפטים עם `src`, בכל מקום שבו הם מודפסים (header של התבנית, `wp_head`, תוספי הוספת קוד, בוני עמודים). קוד שקובץ JavaScript אחר יוצר בזמן ריצה לא מכוסה. את חלקי ה‑`<noscript>` של Google Tag Manager ו‑Facebook Pixel (iframe או תמונה בגוף הדף) אי אפשר לעטוף: הם נטענים רק כש‑JavaScript כבוי, כשאין באנר שיכול לבקש הסכמה, ולכן יש למחוק אותם.
 

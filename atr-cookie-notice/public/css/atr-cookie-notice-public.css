@@ -222,30 +222,192 @@
   gap: 8px;
 }
 
-/* Mobile optimizations */
-@media (max-width: 480px) {
-  .scb-banner {
-    left: 12px;
-    right: 12px;
-    max-width: unset;
-    bottom: 12px;
-    padding: 20px;
-  }
-  .scb-content {
-    gap: 4px;
+/* Mobile (the mobile script adds .scb-mobile at or below the "Mobile Breakpoint" setting).
+   The .scb-side-left selector repeats so the mobile insets beat .scb-banner-bottom.scb-side-left above. */
+.scb-banner.scb-mobile,
+.scb-banner.scb-mobile.scb-side-left {
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  top: auto;
+  width: auto;
+  max-width: none;
+  max-height: var(--scb-m-maxh, 40vh);
+  overflow-y: auto;
+  box-sizing: border-box;
+  padding: var(--scb-m-pad, 16px);
+  font-size: var(--scb-m-font, var(--scb-font-size, 14px));
 }
-  .scb-actions {
-    flex-direction: column;
-  }
-  .scb-controls {
-    flex-direction: column;
-  }
 
-  .scb-btn {
-    width: 100%;
-    padding: 4px;
-    font-size: 16px;
-  }
+.scb-banner.scb-mobile.scb-banner-overlay {
+  transform: none;
+}
+
+.scb-banner.scb-mobile.scb-banner-top {
+  top: 12px;
+  bottom: auto;
+}
+
+/* Preferences panel open: allow more height, still scrolling inside the banner */
+.scb-banner.scb-mobile:has(.scb-settings.visible) {
+  max-height: 70vh;
+}
+
+.scb-banner.scb-mobile .scb-text {
+  font-size: inherit;
+}
+
+.scb-banner.scb-mobile .scb-content {
+  gap: 8px;
+}
+
+.scb-banner.scb-mobile .scb-actions,
+.scb-banner.scb-mobile .scb-controls {
+  flex-direction: var(--scb-m-btn-dir, column);
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.scb-banner.scb-mobile .scb-btn {
+  flex: 1 1 auto;
+  min-height: 44px;
+  padding: 10px 12px;
+  font-size: inherit;
+  text-align: center;
+}
+
+/* Compact strip: one line of text and short buttons; tapping the text expands the banner.
+   The --scb-m-* variables (Mobile settings) override the compact defaults when the admin fills them in. */
+.scb-expand {
+  display: none;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) {
+  max-height: none;
+  overflow: hidden;
+  padding: var(--scb-m-pad, 8px 12px);
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-header,
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-privacy-note,
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-settings,
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-btn-link {
+  display: none;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-content {
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-text {
+  flex: 1 1 auto;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-text br {
+  display: none;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-actions {
+  flex: 0 0 auto;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin-top: 0;
+  gap: 6px;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-btn {
+  flex: 0 0 auto;
+  min-height: 40px;
+  padding: 8px 10px;
+  white-space: nowrap;
+}
+
+/* Collapsed strip: the drag handle becomes a grip bar centered on the top edge (bottom-sheet style) */
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-drag-handle {
+  top: 0;
+  inset-inline-end: auto;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 56px;
+  height: 10px;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-drag-handle::before {
+  top: 2px;
+  left: 19px;
+}
+
+/* Expand / collapse chevron (shown by the mobile script in compact mode only) */
+.scb-banner.scb-mobile.scb-mobile-compact .scb-expand {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  order: 1; /* after the actions in the strip */
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact .scb-expand::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(-135deg); /* chevron up */
+  transition: transform 0.2s ease;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact .scb-expand:focus-visible {
+  outline: 2px solid var(--scb-primary, #0b74de);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Collapsed strip is itself a flex row: [modal: text + actions] + chevron */
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-modal {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Expanded: regular mobile banner, buttons in a row, chevron down in the top corner */
+.scb-banner.scb-mobile.scb-mobile-compact.scb-expanded {
+  max-height: var(--scb-m-maxh, 70vh);
+  padding: var(--scb-m-pad, 16px);
+  padding-top: 28px;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact.scb-expanded .scb-actions {
+  flex-direction: var(--scb-m-btn-dir, row);
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact.scb-expanded .scb-expand {
+  position: absolute;
+  top: 2px;
+  inset-inline-end: 6px;
+}
+
+.scb-banner.scb-mobile.scb-mobile-compact.scb-expanded .scb-expand::before {
+  transform: translateY(-2px) rotate(45deg); /* chevron down */
 }
 
 /* Prevent body scroll when banner is open (but not on privacy page) */

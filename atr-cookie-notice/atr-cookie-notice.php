@@ -16,7 +16,7 @@
  * Plugin Name:       ATR Cookie Notice
  * Plugin URI:        https://atarimtr.co.il
  * Description:       Cookie consent banner. Handles Essential, Analytics, and Marketing cookies with consent management.
- * Version:           1.3.0
+ * Version:           1.4.0
  * Requires at least: 5.0
  * Requires PHP:      7.4
  * Author:            Yehuda Tiram
@@ -37,7 +37,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'ATR_COOKIE_NOTICE_VERSION', '1.3.0' );
+define( 'ATR_COOKIE_NOTICE_VERSION', '1.4.0' );
 
 /**
  * The code that runs during plugin activation.

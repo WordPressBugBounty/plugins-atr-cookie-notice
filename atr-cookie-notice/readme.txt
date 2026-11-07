@@ -5,7 +5,7 @@ Tags: cookies, privacy, consent, israeli law, amendment 13
 Requires at least: 5.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPL-2.0+
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,7 @@ Cookie consent banner aligned with Israel's Privacy Protection Law (Amendment 13
 * **Customizable Content** - Full control over banner text, buttons, and footer HTML with token support
 * **Multiple Banner Positions** - Bottom, top, or overlay positioning options
 * **Auto-hide Functionality** - Optional automatic banner dismissal
-* **Responsive Design** - Works perfectly on all devices and screen sizes
+* **Mobile Settings** - Breakpoint, font size, padding, buttons layout and max height for small screens, plus an optional Compact Mode: a one-line strip with short Accept / Reject buttons that expands on tap
 * **RTL Support** - Proper right-to-left language support
 * **Multilingual Support** - Built-in Hebrew and English translations
 * **Developer Friendly** - Extensive hooks and filters for customization
@@ -110,6 +110,8 @@ ATR Cookie Notice is designed to help websites align with Israel's Privacy Prote
 = Can I customize the appearance of the cookie banner? =
 
 Absolutely! The plugin offers extensive customization options including WordPress color pickers with live preview, positioning, custom CSS, and styling presets (Light, Dark, Minimal, High Contrast). You can also customize the banner text, buttons, and footer HTML using tokens like {site_name}, {privacy_url}, and {privacy_link}.
+
+For small screens, the Styling & Appearance tab has a Mobile group: the breakpoint (default 768px), font size, padding, buttons layout (stacked or side by side) and the maximum share of the screen the banner may take (default 40%, longer content scrolls inside the banner). Turn on **Mobile Compact Mode** to show a one-line strip instead: one line of text with short Accept / Reject buttons; tapping the text or the chevron expands the full banner. The live preview has a Desktop / Mobile switch.
 
 = What are the available content tokens? =
 
@@ -196,6 +198,7 @@ If using cache, minification, or JS optimization plugins, you may need to exclud
 Exclude these files:
 * `/wp-content/plugins/atr-cookie-notice/public/js/atr-cookie-notice-public.js`
 * `/wp-content/plugins/atr-cookie-notice/public/js/atr-cookie-notice-drag.js`
+* `/wp-content/plugins/atr-cookie-notice/public/js/atr-cookie-notice-mobile.js`
 * `/wp-content/plugins/atr-cookie-notice/admin/js/atr-cookie-notice-admin.js`
 
 After making changes, use the "Purge caches and refresh assets" tool and test in a private browser window.
@@ -227,6 +230,12 @@ Yes! In the Tools section of the plugin settings, you'll find a "Reset Styling t
 8. Privacy Policy documentation page with built-in templates
 
 == Changelog ==
+
+= 1.4.0 =
+* Styling: Mobile settings group (breakpoint, font size, padding, buttons layout, max height) replacing the fixed 480px rules
+* Styling: "Mobile Compact Mode": one-line strip with short Accept / Reject buttons; tapping the text expands the banner
+* Live preview: Desktop / Mobile (390px) switch
+* Fixed: "Banner Max Width" had no effect (the duplicate "Modal Max Width" field did the work); the duplicate was removed, saved values are kept
 
 = 1.3.0 =
 * New: "Banner Side" setting (Right / Left) for the Bottom and Top positions
@@ -295,6 +304,9 @@ Yes! In the Tools section of the plugin settings, you'll find a "Reset Styling t
 * Developer-friendly hooks and filters
 
 == Upgrade Notice ==
+
+= 1.4.0 =
+Mobile settings (breakpoint, font size, padding, buttons layout, max height) and an optional Compact Mode: a one-line strip that expands on tap. Fixes the Banner Max Width field. Styling tab reorganized into groups.
 
 = 1.3.0 =
 Privacy fixes: "Reject" is always honored, consent expiry applies everywhere, and visitors can withdraw consent with the new [atr_cookie_notice_settings] link. Adds banner side, hide-on-pages and WPML/Polylang support.

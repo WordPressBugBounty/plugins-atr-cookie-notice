@@ -35,11 +35,20 @@
       banner.style.transform = 'none';
     }
 
+    // On mobile the banner is sized by its left/right insets; place() drops the right inset,
+    // so freeze the current width first (the mobile script clears it on the way back to desktop)
+    function lockMobileWidth(rect) {
+      if (banner.classList.contains('scb-mobile') && !banner.style.width) {
+        banner.style.width = rect.width + 'px';
+      }
+    }
+
     handle.addEventListener('pointerdown', function (e) {
       if (e.button !== 0) {
         return;
       }
       var rect = banner.getBoundingClientRect();
+      lockMobileWidth(rect);
       startX = e.clientX;
       startY = e.clientY;
       startLeft = rect.left;
@@ -70,6 +79,7 @@
         return;
       }
       var rect = banner.getBoundingClientRect();
+      lockMobileWidth(rect);
       place(rect.left + d[0], rect.top + d[1]);
       e.preventDefault();
     });

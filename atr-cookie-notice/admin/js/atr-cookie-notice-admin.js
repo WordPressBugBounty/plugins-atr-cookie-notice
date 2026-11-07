@@ -2,23 +2,19 @@
 	'use strict';
 	// Settings screen tabbed navigation behavior
 	$(function(){
-		var headings = $('.settings-container > h2, .settings-container > h3');
-		var paragraphs = $('.settings-container > .atr-scb-section-desc');
-		var tables = $('.settings-container > table');
+		// Each tab is one .atr-scb-tab-panel (data-tab = section id); the tab link's href names it
+		var panels = $('.settings-container > .atr-scb-tab-panel');
 		var triggers = $('.settings-tabs a');
 
 		triggers.each(function(i){
 			triggers.eq(i).on('click', function(e){
 				e.preventDefault();
+				var tab = (triggers.eq(i).attr('href') || '').replace('#', '');
 				triggers.removeClass('nav-tab-active');
-				headings.hide();
-				paragraphs.hide();
-				tables.hide();
+				panels.hide();
 
 				triggers.eq(i).addClass('nav-tab-active');
-				headings.eq(i).show();
-				paragraphs.eq(i).show();
-				tables.eq(i).show();
+				panels.filter('[data-tab="' + tab + '"]').show();
 			});
 		});
 
@@ -80,7 +76,12 @@
 		var upper     = atrScbIsChecked('uppercase_buttons');
 		// Layout
 		var radius    = atrScbCollectValue('border_radius');
-		var maxW      = atrScbCollectValue('modal_max_width');
+		var maxW      = atrScbCollectValue('banner_max_width');
+		// Mobile
+		var mFont     = atrScbCollectValue('mobile_font_size');
+		var mPad      = atrScbCollectValue('mobile_padding');
+		var mBtnDir   = atrScbCollectValue('mobile_buttons_layout'); // '' = automatic, 'stacked', 'row'
+		var mMaxH     = atrScbCollectValue('mobile_max_height');
 		var padY      = atrScbCollectValue('container_padding_y');
 		var padX      = atrScbCollectValue('container_padding_x');
 		var gap       = atrScbCollectValue('gap_between_elements');
@@ -109,6 +110,10 @@
 		if (pBtnText)  vars.push('--scb-primary-btn-text:' + pBtnText);
 		if (sBtnBg)    vars.push('--scb-secondary-btn-bg:' + sBtnBg);
 		if (sBtnText)  vars.push('--scb-secondary-btn-text:' + sBtnText);
+		if (mFont)     vars.push('--scb-m-font:' + atrScbToPx(mFont, '14px'));
+		if (mPad)      vars.push('--scb-m-pad:' + atrScbToPx(mPad, '16px'));
+		if (mBtnDir)   vars.push('--scb-m-btn-dir:' + (mBtnDir === 'row' ? 'row' : 'column'));
+		if (mMaxH)     vars.push('--scb-m-maxh:' + (parseInt(mMaxH, 10) || 40) + 'vh');
 
 		// Return both serialized and an array map for direct setProperty
 		return {
@@ -135,12 +140,45 @@
 		var banner = document.querySelector('.atr-scb-preview .scb-banner');
 		if (banner) {
 			banner.classList.toggle('scb-force', !!force);
+			banner.classList.toggle('scb-mobile-compact', atrScbIsChecked('mobile_compact_mode'));
 			// Set the CSS variables directly on the preview element
 			var map = result.map || {};
+			['--scb-m-font', '--scb-m-pad', '--scb-m-btn-dir', '--scb-m-maxh'].forEach(function(k){
+				if (!map[k]) { try { banner.style.removeProperty(k); } catch(e) {} }
+			});
 			Object.keys(map).forEach(function(k){
 				try { banner.style.setProperty(k, map[k]); } catch(e) {}
 			});
+			atrScbSyncPreviewCompact(banner);
 		}
+	}
+	// Mirror of the front-end mobile script: short labels while the strip is collapsed, chevron state
+	function atrScbSyncPreviewCompact(banner) {
+		var active = banner.classList.contains('scb-mobile') && banner.classList.contains('scb-mobile-compact');
+		var collapsed = active && !banner.classList.contains('scb-expanded');
+		var expand = banner.querySelector('.scb-expand');
+		if (expand) {
+			expand.hidden = !active;
+			expand.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
+		}
+		Array.prototype.forEach.call(banner.querySelectorAll('.scb-btn[data-scb-short]'), function(btn){
+			if (!btn.hasAttribute('data-scb-full')) { btn.setAttribute('data-scb-full', btn.textContent); }
+			btn.textContent = collapsed ? btn.getAttribute('data-scb-short') : btn.getAttribute('data-scb-full');
+		});
+	}
+	function atrScbSetPreviewDevice(device) {
+		var wrap = document.getElementById('atr-scb-preview');
+		var banner = wrap ? wrap.querySelector('.scb-banner') : null;
+		if (!wrap || !banner) { return; }
+		var mobile = device === 'mobile';
+		wrap.classList.toggle('atr-scb-preview-mobile', mobile);
+		banner.classList.toggle('scb-mobile', mobile);
+		if (!mobile) { banner.classList.remove('scb-expanded'); }
+		$('.atr-scb-preview-device').each(function(){
+			var on = $(this).data('device') === device;
+			$(this).toggleClass('is-active', on).attr('aria-pressed', on ? 'true' : 'false');
+		});
+		atrScbSyncPreviewCompact(banner);
 	}
 	$(function(){
 		var previewBlock = $('.atr-scb-live-preview');
@@ -171,6 +209,36 @@
 
 		// Apply initial
 		atrScbApplyPreview();
+
+		// Collapse / expand the live preview (remembered per browser; the sticky block otherwise covers the form)
+		var previewStateKey = 'atrCookieNoticePreviewCollapsed';
+		function setPreviewCollapsed(collapsed, remember) {
+			var block = $('.atr-scb-live-preview');
+			var btn = block.find('.atr-scb-preview-toggle');
+			block.toggleClass('atr-scb-preview-collapsed', collapsed);
+			btn.attr('aria-expanded', collapsed ? 'false' : 'true');
+			btn.text(collapsed ? btn.data('label-expand') : btn.data('label-collapse'));
+			if (remember) {
+				try { localStorage.setItem(previewStateKey, collapsed ? '1' : '0'); } catch(e) {}
+			}
+		}
+		$(document).on('click', '.atr-scb-preview-toggle', function(){
+			setPreviewCollapsed(!$('.atr-scb-live-preview').hasClass('atr-scb-preview-collapsed'), true);
+		});
+		var savedCollapsed = null;
+		try { savedCollapsed = localStorage.getItem(previewStateKey); } catch(e) {}
+		if (savedCollapsed === '1') { setPreviewCollapsed(true, false); }
+
+		// Preview device toggle (Desktop / Mobile) and the compact strip expand/collapse
+		$(document).on('click', '.atr-scb-preview-device', function(){
+			atrScbSetPreviewDevice($(this).data('device'));
+		});
+		$(document).on('click', '.atr-scb-preview .scb-expand, .atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-text', function(){
+			var banner = document.querySelector('.atr-scb-preview .scb-banner');
+			if (!banner || !banner.classList.contains('scb-mobile') || !banner.classList.contains('scb-mobile-compact')) { return; }
+			banner.classList.toggle('scb-expanded');
+			atrScbSyncPreviewCompact(banner);
+		});
 
 		// Listen to changes in the settings form
 		$('.settings-container').on('input change keyup paste', 'input, select, textarea', function(){

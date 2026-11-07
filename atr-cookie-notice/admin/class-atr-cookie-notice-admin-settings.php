@@ -326,9 +326,41 @@ class Atr_Cookie_Notice_Admin_Settings {
 		$settings['styling'] = array(
 			'title'       => __( 'Styling & Appearance', 'atr-cookie-notice' ),
 			'description' => __( 'Customize the appearance of the cookie notice.', 'atr-cookie-notice' ),
+			// Sub-groups shown as headings on the tab; every field below names its group.
+			'groups'      => array(
+				'colors'     => array(
+					'title'       => __( 'Colors', 'atr-cookie-notice' ),
+					'description' => __( 'Banner background, text and link colors. Button colors are in the Buttons group.', 'atr-cookie-notice' ),
+				),
+				'typography' => array(
+					'title'       => __( 'Typography', 'atr-cookie-notice' ),
+					'description' => __( 'Font family, size and weight of the banner text.', 'atr-cookie-notice' ),
+				),
+				'buttons'    => array(
+					'title'       => __( 'Buttons', 'atr-cookie-notice' ),
+					'description' => __( 'Button text style and colors. Leave a color empty to inherit the Primary / Secondary colors.', 'atr-cookie-notice' ),
+				),
+				'layout'     => array(
+					'title'       => __( 'Layout & Spacing', 'atr-cookie-notice' ),
+					'description' => __( 'Size, padding and arrangement of the banner on desktop.', 'atr-cookie-notice' ),
+				),
+				'mobile'     => array(
+					'title'       => __( 'Mobile', 'atr-cookie-notice' ),
+					'description' => __( 'How the banner behaves on small screens. Use the Mobile switch in the live preview to check it.', 'atr-cookie-notice' ),
+				),
+				'overlay'    => array(
+					'title'       => __( 'Overlay & Elevation', 'atr-cookie-notice' ),
+					'description' => __( 'The page overlay behind the banner, stacking order and shadow.', 'atr-cookie-notice' ),
+				),
+				'css'        => array(
+					'title'       => __( 'Custom CSS', 'atr-cookie-notice' ),
+					'description' => '',
+				),
+			),
 			'fields'      => array(
 				array(
 					'id'          => 'primary_color',
+					'group'       => 'colors',
 					'label'       => __( 'Primary Color', 'atr-cookie-notice' ),
 					'description' => __( 'Main color for buttons and highlights (hex code).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -337,6 +369,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'secondary_color',
+					'group'       => 'colors',
 					'label'       => __( 'Secondary Color', 'atr-cookie-notice' ),
 					'description' => __( 'Secondary/accent color for secondary elements (hex code).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -345,6 +378,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'text_color',
+					'group'       => 'colors',
 					'label'       => __( 'Text Color', 'atr-cookie-notice' ),
 					'description' => __( 'Color for text content (hex code).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -353,6 +387,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'link_color',
+					'group'       => 'colors',
 					'label'       => __( 'Link Color', 'atr-cookie-notice' ),
 					'description' => __( 'Color for links (hex code).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -361,6 +396,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'background_color',
+					'group'       => 'colors',
 					'label'       => __( 'Background Color', 'atr-cookie-notice' ),
 					'description' => __( 'Background color for the banner (hex code).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -370,6 +406,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				// Typography
 				array(
 					'id'          => 'font_family',
+					'group'       => 'typography',
 					'label'       => __( 'Font Family', 'atr-cookie-notice' ),
 					'description' => __( 'Custom font-family stack (e.g., system-ui, -apple-system, Segoe UI, Roboto, sans-serif).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -378,6 +415,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'base_font_size',
+					'group'       => 'typography',
 					'label'       => __( 'Base Font Size (px)', 'atr-cookie-notice' ),
 					'description' => __( 'Base font size for the banner (in pixels).', 'atr-cookie-notice' ),
 					'type'        => 'number',
@@ -386,6 +424,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'font_weight',
+					'group'       => 'typography',
 					'label'       => __( 'Base Font Weight', 'atr-cookie-notice' ),
 					'description' => __( 'Select base font weight.', 'atr-cookie-notice' ),
 					'type'        => 'select',
@@ -399,6 +438,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'button_font_weight',
+					'group'       => 'buttons',
 					'label'       => __( 'Button Font Weight', 'atr-cookie-notice' ),
 					'description' => __( 'Select button font weight.', 'atr-cookie-notice' ),
 					'type'        => 'select',
@@ -412,6 +452,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'uppercase_buttons',
+					'group'       => 'buttons',
 					'label'       => __( 'Uppercase Buttons', 'atr-cookie-notice' ),
 					'description' => __( 'Render button labels in uppercase.', 'atr-cookie-notice' ),
 					'type'        => 'checkbox',
@@ -420,6 +461,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				// Buttons color overrides
 				array(
 					'id'          => 'primary_button_bg_color',
+					'group'       => 'buttons',
 					'label'       => __( 'Primary Button BG', 'atr-cookie-notice' ),
 					'description' => __( 'Background color for the primary button (hex code).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -428,6 +470,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'primary_button_text_color',
+					'group'       => 'buttons',
 					'label'       => __( 'Primary Button Text', 'atr-cookie-notice' ),
 					'description' => __( 'Text color for the primary button (hex code).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -436,6 +479,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'secondary_button_bg_color',
+					'group'       => 'buttons',
 					'label'       => __( 'Secondary Button BG', 'atr-cookie-notice' ),
 					'description' => __( 'Background color for the secondary button (hex code).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -444,6 +488,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'secondary_button_text_color',
+					'group'       => 'buttons',
 					'label'       => __( 'Secondary Button Text', 'atr-cookie-notice' ),
 					'description' => __( 'Text color for the secondary button (hex code).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -453,6 +498,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				// Layout & spacing
 				array(
 					'id'          => 'border_radius',
+					'group'       => 'layout',
 					'label'       => __( 'Border Radius (px)', 'atr-cookie-notice' ),
 					'description' => __( 'Corner radius for banner and buttons (in pixels).', 'atr-cookie-notice' ),
 					'type'        => 'number',
@@ -461,22 +507,16 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'banner_max_width',
+					'group'       => 'layout',
 					'label'       => __( 'Banner Max Width (px)', 'atr-cookie-notice' ),
-					'description' => __( 'Maximum width for the banner (in pixels).', 'atr-cookie-notice' ),
-					'type'        => 'number',
-					'default'     => '420',
-					'placeholder' => '420',
-				),
-				array(
-					'id'          => 'modal_max_width',
-					'label'       => __( 'Modal Max Width (px)', 'atr-cookie-notice' ),
-					'description' => __( 'Maximum width for the modal container (Full mode).', 'atr-cookie-notice' ),
+					'description' => __( 'Maximum width of the banner on desktop (in pixels). On mobile the banner spans the screen width.', 'atr-cookie-notice' ),
 					'type'        => 'number',
 					'default'     => '420',
 					'placeholder' => '420',
 				),
 				array(
 					'id'          => 'container_padding_y',
+					'group'       => 'layout',
 					'label'       => __( 'Container Padding Y (px)', 'atr-cookie-notice' ),
 					'description' => __( 'Vertical padding inside the banner (in pixels).', 'atr-cookie-notice' ),
 					'type'        => 'number',
@@ -485,6 +525,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'container_padding_x',
+					'group'       => 'layout',
 					'label'       => __( 'Container Padding X (px)', 'atr-cookie-notice' ),
 					'description' => __( 'Horizontal padding inside the banner (in pixels).', 'atr-cookie-notice' ),
 					'type'        => 'number',
@@ -493,14 +534,74 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'gap_between_elements',
+					'group'       => 'layout',
 					'label'       => __( 'Gap Between Elements (px)', 'atr-cookie-notice' ),
 					'description' => __( 'Space between text, buttons and controls (in pixels).', 'atr-cookie-notice' ),
 					'type'        => 'number',
 					'default'     => '12',
 					'placeholder' => '12',
 				),
+				// Mobile.
+				array(
+					'id'          => 'mobile_breakpoint',
+					'group'       => 'mobile',
+					'label'       => __( 'Mobile Breakpoint (px)', 'atr-cookie-notice' ),
+					'description' => __( 'Screen width at or below which the mobile settings below apply. Default 768 covers phones and small tablets.', 'atr-cookie-notice' ),
+					'type'        => 'number',
+					'default'     => '768',
+					'placeholder' => '768',
+				),
+				array(
+					'id'          => 'mobile_compact_mode',
+					'group'       => 'mobile',
+					'label'       => __( 'Mobile Compact Mode', 'atr-cookie-notice' ),
+					'description' => __( 'On mobile, show the banner as a one-line strip at the bottom of the screen: one line of text with short Accept / Reject buttons. Tapping the text expands the full banner. Compact Mode sets its own font size, padding, buttons layout and max height; any field below that you fill in overrides it.', 'atr-cookie-notice' ),
+					'type'        => 'checkbox',
+					'default'     => '',
+				),
+				array(
+					'id'          => 'mobile_font_size',
+					'group'       => 'mobile',
+					'label'       => __( 'Mobile Font Size (px)', 'atr-cookie-notice' ),
+					'description' => __( 'Text and button font size on mobile. Empty: the base font size (or the Compact Mode default).', 'atr-cookie-notice' ),
+					'type'        => 'number',
+					'default'     => '',
+					'placeholder' => '14',
+				),
+				array(
+					'id'          => 'mobile_padding',
+					'group'       => 'mobile',
+					'label'       => __( 'Mobile Padding (px)', 'atr-cookie-notice' ),
+					'description' => __( 'Padding inside the banner on mobile (all sides). Empty: 16px (Compact Mode: 8px strip, 16px expanded).', 'atr-cookie-notice' ),
+					'type'        => 'number',
+					'default'     => '',
+					'placeholder' => '16',
+				),
+				array(
+					'id'          => 'mobile_buttons_layout',
+					'group'       => 'mobile',
+					'label'       => __( 'Mobile Buttons Layout', 'atr-cookie-notice' ),
+					'description' => __( 'Stacked: each button on its own line, full width. Row: buttons side by side (saves height). Automatic: stacked, or row when Compact Mode is on. In Compact Mode this applies to the expanded banner; the strip is always one row.', 'atr-cookie-notice' ),
+					'type'        => 'select',
+					'options'     => array(
+						''        => __( 'Automatic', 'atr-cookie-notice' ),
+						'stacked' => __( 'Stacked (one per line)', 'atr-cookie-notice' ),
+						'row'     => __( 'Row (side by side)', 'atr-cookie-notice' ),
+					),
+					'default'     => '',
+				),
+				array(
+					'id'          => 'mobile_max_height',
+					'group'       => 'mobile',
+					'label'       => __( 'Mobile Max Height (% of screen)', 'atr-cookie-notice' ),
+					'description' => __( 'The banner never takes more than this share of the screen height on mobile; longer content scrolls inside the banner. 10-90. Empty: 40% (Compact Mode: 70% when expanded).', 'atr-cookie-notice' ),
+					'type'        => 'number',
+					'default'     => '',
+					'placeholder' => '40',
+				),
 				array(
 					'id'          => 'layout_direction',
+					'group'       => 'layout',
 					'label'       => __( 'Layout Direction', 'atr-cookie-notice' ),
 					'description' => __( 'Stack elements vertically (column) or horizontally (row).', 'atr-cookie-notice' ),
 					'type'        => 'select',
@@ -512,6 +613,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'content_align',
+					'group'       => 'layout',
 					'label'       => __( 'Content Alignment', 'atr-cookie-notice' ),
 					'description' => __( 'Align content left, center, or right.', 'atr-cookie-notice' ),
 					'type'        => 'select',
@@ -525,6 +627,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				// Overlay & elevation
 				array(
 					'id'          => 'overlay_color',
+					'group'       => 'overlay',
 					'label'       => __( 'Overlay Color', 'atr-cookie-notice' ),
 					'description' => __( 'Overlay base color (hex code).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -533,6 +636,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'overlay_opacity',
+					'group'       => 'overlay',
 					'label'       => __( 'Overlay Opacity (0–1)', 'atr-cookie-notice' ),
 					'description' => __( 'Opacity for overlay background (0 to 1).', 'atr-cookie-notice' ),
 					'type'        => 'text',
@@ -541,6 +645,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'z_index',
+					'group'       => 'overlay',
 					'label'       => __( 'Banner Z-Index', 'atr-cookie-notice' ),
 					'description' => __( 'Z-index for the banner (integer).', 'atr-cookie-notice' ) . ' ' . __( 'If a site popup covers the banner, raise this value (maximum 2147483647).', 'atr-cookie-notice' ),
 					'type'        => 'number',
@@ -549,6 +654,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'shadow_preset',
+					'group'       => 'overlay',
 					'label'       => __( 'Shadow Preset', 'atr-cookie-notice' ),
 					'description' => __( 'Preset for modal/banner shadow.', 'atr-cookie-notice' ),
 					'type'        => 'select',
@@ -562,6 +668,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 				),
 				array(
 					'id'          => 'custom_css',
+					'group'       => 'css',
 					'label'       => __( 'Custom CSS', 'atr-cookie-notice' ),
 					'description' => __( 'Additional CSS rules to customize the banner appearance.', 'atr-cookie-notice' ),
 					'type'        => 'textarea',
@@ -742,10 +849,19 @@ class Atr_Cookie_Notice_Admin_Settings {
 
 				add_settings_section( $section, $data['title'], array( $this, 'settings_section' ), $this->plugin_slug );
 
+				// Sub-groups (see the 'groups' key): one Settings API section per group, rendered under the tab by settings_page().
+				if ( ! empty( $data['groups'] ) ) {
+					foreach ( $data['groups'] as $group_id => $group ) {
+						add_settings_section( $section . '_' . $group_id, $group['title'], '__return_null', $this->plugin_slug );
+					}
+				}
+
 				foreach ( $data['fields'] as $field ) {
 
+					$target = ( ! empty( $data['groups'] ) && ! empty( $field['group'] ) && isset( $data['groups'][ $field['group'] ] ) ) ? $section . '_' . $field['group'] : $section;
+
 					// Add field to page
-					add_settings_field( $field['id'], $field['label'], array( $this, 'display_field' ), $this->plugin_slug, $section, array( 'field' => $field ) );
+					add_settings_field( $field['id'], $field['label'], array( $this, 'display_field' ), $this->plugin_slug, $target, array( 'field' => $field ) );
 				}
 			}
 		}
@@ -1058,6 +1174,24 @@ class Atr_Cookie_Notice_Admin_Settings {
 			$data['z_index'] = min( 2147483647, absint( $data['z_index'] ) );
 		}
 
+		// Mobile: keep the numbers inside a sane range (0 / empty means "not set" for the optional ones).
+		if ( isset( $data['mobile_breakpoint'] ) ) {
+			$bp                        = absint( $data['mobile_breakpoint'] );
+			$data['mobile_breakpoint'] = ( $bp < 320 || $bp > 1200 ) ? 768 : $bp;
+		}
+		if ( isset( $data['mobile_font_size'] ) ) {
+			$fs                       = absint( $data['mobile_font_size'] );
+			$data['mobile_font_size'] = ( 0 === $fs ) ? '' : max( 10, min( 24, $fs ) );
+		}
+		if ( isset( $data['mobile_padding'] ) ) {
+			$pd                     = absint( $data['mobile_padding'] );
+			$data['mobile_padding'] = ( 0 === $pd ) ? '' : min( 40, $pd );
+		}
+		if ( isset( $data['mobile_max_height'] ) ) {
+			$mh                        = absint( $data['mobile_max_height'] );
+			$data['mobile_max_height'] = ( $mh < 10 || $mh > 90 ) ? '' : $mh;
+		}
+
 		// Validate numeric fields
 		if ( isset( $data['auto_hide_delay'] ) ) {
 			$data['auto_hide_delay'] = absint( $data['auto_hide_delay'] );
@@ -1173,6 +1307,7 @@ class Atr_Cookie_Notice_Admin_Settings {
 						<li><code>wp-content/plugins/atr-cookie-notice/public/js/atr-cookie-notice-simple.js</code></li>
 						<li><code>wp-content/plugins/atr-cookie-notice/public/js/atr-cookie-notice-public.js</code></li>
 						<li><code>wp-content/plugins/atr-cookie-notice/public/js/atr-cookie-notice-drag.js</code></li>
+						<li><code>wp-content/plugins/atr-cookie-notice/public/js/atr-cookie-notice-mobile.js</code></li>
 					</ul>
 					<p><?php echo esc_html__( 'After updating cache settings, purge your caches and reload the site in a private window to verify.', 'atr-cookie-notice' ); ?></p>
 				</div>
@@ -1185,10 +1320,20 @@ class Atr_Cookie_Notice_Admin_Settings {
 
 			<!-- Live Preview: wrapper contains only the preview block -->
 			<div class="atr-scb-live-preview atr-scb-preview-top" style="margin:0 0 20px 0;">
-				<h2><?php echo esc_html__( 'Live Preview', 'atr-cookie-notice' ); ?></h2>
+				<div class="atr-scb-preview-head">
+					<h2><?php echo esc_html__( 'Live Preview', 'atr-cookie-notice' ); ?></h2>
+					<button type="button" class="button atr-scb-preview-toggle" aria-expanded="true" aria-controls="atr-scb-preview-body" data-label-collapse="<?php echo esc_attr__( 'Hide preview', 'atr-cookie-notice' ); ?>" data-label-expand="<?php echo esc_attr__( 'Show preview', 'atr-cookie-notice' ); ?>"><?php echo esc_html__( 'Hide preview', 'atr-cookie-notice' ); ?></button>
+				</div>
+				<div id="atr-scb-preview-body" class="atr-scb-preview-body">
 				<p class="description"><?php echo esc_html__( 'This preview reflects Styling & Appearance settings (visuals only). Save changes to apply on the frontend.', 'atr-cookie-notice' ); ?></p>
+				<div class="atr-scb-preview-devices" role="group" aria-label="<?php echo esc_attr__( 'Preview device', 'atr-cookie-notice' ); ?>">
+					<button type="button" class="button atr-scb-preview-device is-active" data-device="desktop" aria-pressed="true"><?php echo esc_html__( 'Desktop', 'atr-cookie-notice' ); ?></button>
+					<button type="button" class="button atr-scb-preview-device" data-device="mobile" aria-pressed="false"><?php echo esc_html__( 'Mobile (390px)', 'atr-cookie-notice' ); ?></button>
+					<span class="description atr-scb-preview-compact-hint"><?php echo esc_html__( 'In Compact Mode, tap the text or the chevron to expand the strip.', 'atr-cookie-notice' ); ?></span>
+				</div>
 				<div id="atr-scb-preview" class="atr-scb-preview">
 					<div id="scb-banner" class="scb-banner scb-banner-bottom scb-mode-full" style="position:relative;transform:none;opacity:1;visibility:visible;">
+						<button type="button" class="scb-expand" aria-expanded="false" aria-label="<?php echo esc_attr__( 'Show full text', 'atr-cookie-notice' ); ?>" hidden></button>
 						<div class="scb-modal">
 							<div class="scb-content">
 								<div class="scb-text">
@@ -1196,14 +1341,15 @@ class Atr_Cookie_Notice_Admin_Settings {
 									<?php echo esc_html__( 'We use cookies to ensure the website functions properly and improve user experience.', 'atr-cookie-notice' ); ?>
 								</div>
 								<div class="scb-actions">
-									<button class="scb-btn scb-btn-primary scb-btn-accept-all" type="button"><?php echo esc_html__( 'Accept All', 'atr-cookie-notice' ); ?></button>
-									<button class="scb-btn scb-btn-secondary scb-btn-reject" type="button"><?php echo esc_html__( 'Reject Non-Essential', 'atr-cookie-notice' ); ?></button>
+									<button class="scb-btn scb-btn-primary scb-btn-accept-all" type="button" data-scb-short="<?php echo esc_attr__( 'Accept', 'atr-cookie-notice' ); ?>"><?php echo esc_html__( 'Accept All', 'atr-cookie-notice' ); ?></button>
+									<button class="scb-btn scb-btn-secondary scb-btn-reject" type="button" data-scb-short="<?php echo esc_attr__( 'Reject', 'atr-cookie-notice' ); ?>"><?php echo esc_html__( 'Reject Non-Essential', 'atr-cookie-notice' ); ?></button>
 									<button class="scb-btn scb-btn-link scb-btn-custom" type="button"><?php echo esc_html__( 'Preferences', 'atr-cookie-notice' ); ?></button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
+				</div><!-- .atr-scb-preview-body -->
 			</div>
 
 			<!-- Tab navigation starts -->
@@ -1222,7 +1368,34 @@ class Atr_Cookie_Notice_Admin_Settings {
 			<form action="options.php" method="POST">
 				<?php settings_fields( $this->plugin_slug . '_options' ); ?>
 				<div class="settings-container">
-					<?php do_settings_sections( $this->plugin_slug ); ?>
+					<?php
+					foreach ( $this->settings as $section => $data ) {
+						$section_id = sanitize_key( $section );
+						echo '<div class="atr-scb-tab-panel" id="atr-scb-tab-' . esc_attr( $section_id ) . '" data-tab="' . esc_attr( $section_id ) . '">';
+						echo '<h2>' . esc_html( $data['title'] ) . '</h2>';
+						$this->settings_section( array( 'id' => $section ) );
+						if ( ! empty( $data['groups'] ) ) {
+							foreach ( $data['groups'] as $group_id => $group ) {
+								echo '<section class="atr-scb-group atr-scb-group-' . esc_attr( $group_id ) . '" aria-labelledby="atr-scb-group-' . esc_attr( $section_id . '-' . $group_id ) . '">';
+								echo '<header class="atr-scb-group-header">';
+								echo '<h3 class="atr-scb-group-title" id="atr-scb-group-' . esc_attr( $section_id . '-' . $group_id ) . '">' . esc_html( $group['title'] ) . '</h3>';
+								if ( ! empty( $group['description'] ) ) {
+									echo '<p class="description atr-scb-group-desc">' . esc_html( $group['description'] ) . '</p>';
+								}
+								echo '</header>';
+								echo '<div class="atr-scb-group-body"><table class="form-table" role="presentation">';
+								do_settings_fields( $this->plugin_slug, $section . '_' . $group_id );
+								echo '</table></div>';
+								echo '</section>';
+							}
+						} else {
+							echo '<table class="form-table" role="presentation">';
+							do_settings_fields( $this->plugin_slug, $section );
+							echo '</table>';
+						}
+						echo '</div>';
+					}
+					?>
 				</div>
 				<?php submit_button(); ?>
 			</form>

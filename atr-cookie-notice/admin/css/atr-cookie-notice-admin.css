@@ -95,3 +95,86 @@
 .atr-scb-preview .scb-btn-secondary{ background: var(--scb-secondary-btn-bg, #f7f7f7); color: var(--scb-secondary-btn-text, #333); text-transform: var(--scb-btn-transform, none); }
 .atr-scb-preview .scb-btn-link{ background: transparent; border:none; color: var(--scb-link, #0b74de); text-decoration: underline; text-transform: var(--scb-btn-transform, none); }
 
+/* Live preview: device toggle */
+.atr-scb-preview-devices { display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin:0 0 10px; }
+.atr-scb-preview-devices .button.is-active { background:#2271b1; border-color:#2271b1; color:#fff; }
+.atr-scb-preview-compact-hint { margin-inline-start:8px; }
+
+/* Live preview: mobile frame (390px) and the same mobile rules as the front-end stylesheet */
+.atr-scb-preview.atr-scb-preview-mobile { width:390px; max-width:100%; margin:0 auto; padding:12px; background:#f0f0f1; border:1px solid #c3c4c7; border-radius:12px; box-sizing:border-box; }
+.atr-scb-preview .scb-banner { position:relative; }
+.atr-scb-preview .scb-banner.scb-mobile { max-width:none; box-sizing:border-box; padding: var(--scb-m-pad, 16px); font-size: var(--scb-m-font, var(--scb-font-size, 14px)); max-height: var(--scb-m-maxh, 40vh); overflow-y:auto; }
+.atr-scb-preview .scb-banner.scb-mobile .scb-content { gap:8px; }
+.atr-scb-preview .scb-banner.scb-mobile .scb-actions { flex-direction: var(--scb-m-btn-dir, column); gap:8px; }
+.atr-scb-preview .scb-banner.scb-mobile .scb-btn { flex:1 1 auto; min-height:44px; padding:10px 12px; font-size:inherit; text-align:center; }
+.atr-scb-preview .scb-expand { display:none; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) { display:flex; align-items:center; gap:8px; max-height:none; overflow:hidden; padding: var(--scb-m-pad, 8px 12px); }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-modal { flex:1 1 auto; min-width:0; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-content { flex-direction:row; align-items:center; gap:8px; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-text { flex:1 1 auto; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; line-height:1.3; cursor:pointer; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-btn-link { display:none; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-actions { flex:0 0 auto; flex-direction:row; flex-wrap:nowrap; gap:6px; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact:not(.scb-expanded) .scb-btn { flex:0 0 auto; min-height:40px; padding:8px 10px; white-space:nowrap; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact .scb-expand { display:inline-flex; align-items:center; justify-content:center; flex:0 0 auto; width:32px; height:32px; padding:0; border:0; background:transparent; color:inherit; cursor:pointer; order:1; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact .scb-expand::before { content:""; width:8px; height:8px; border-right:2px solid currentColor; border-bottom:2px solid currentColor; transform:translateY(-2px) rotate(-135deg); transition:transform .2s ease; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact.scb-expanded { max-height: var(--scb-m-maxh, 70vh); padding: var(--scb-m-pad, 16px); padding-top:28px; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact.scb-expanded .scb-actions { flex-direction: var(--scb-m-btn-dir, row); }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact.scb-expanded .scb-expand { position:absolute; top:2px; inset-inline-end:6px; }
+.atr-scb-preview .scb-banner.scb-mobile.scb-mobile-compact.scb-expanded .scb-expand::before { transform:translateY(-2px) rotate(45deg); }
+
+/* Settings tab: sub-group cards (Styling & Appearance). White card on the gray admin page,
+   WP border/shadow tokens, a tinted header band with a colored accent bar on the start side. */
+.atr-scb-group {
+    background: #fff;
+    border: 1px solid #c3c4c7;
+    border-radius: 6px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    margin: 20px 0 0;
+    max-width: 960px;
+    overflow: hidden;
+}
+.atr-scb-group-header {
+    position: relative;
+    background: #f6f7f7;
+    border-bottom: 1px solid #dcdcde;
+    padding: 12px 16px 12px 20px;
+}
+.atr-scb-group-header::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    inset-inline-start: 0;
+    width: 4px;
+    background: #2271b1;
+}
+.atr-scb-group-title {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: #1d2327;
+}
+.atr-scb-group-desc {
+    margin: 4px 0 0;
+    color: #50575e;
+}
+.atr-scb-group-body { padding: 4px 16px 12px; }
+.atr-scb-group-body .form-table { margin-top: 0; }
+.atr-scb-group-body .form-table th { padding-inline-start: 0; }
+.atr-scb-group-body .form-table tr + tr th,
+.atr-scb-group-body .form-table tr + tr td { border-top: 1px solid #f0f0f1; }
+/* A different accent per group makes the tab scannable at a glance */
+.atr-scb-group-colors .atr-scb-group-header::before     { background: #d63638; }
+.atr-scb-group-typography .atr-scb-group-header::before { background: #8c5e00; }
+.atr-scb-group-buttons .atr-scb-group-header::before    { background: #2271b1; }
+.atr-scb-group-layout .atr-scb-group-header::before     { background: #00a32a; }
+.atr-scb-group-mobile .atr-scb-group-header::before     { background: #7f54b3; }
+.atr-scb-group-overlay .atr-scb-group-header::before    { background: #646970; }
+.atr-scb-group-css .atr-scb-group-header::before        { background: #1d2327; }
+
+/* Live preview: header row with the collapse button; collapsed = header only */
+.atr-scb-preview-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.atr-scb-preview-head h2 { margin:0; padding:0; }
+.atr-scb-live-preview.atr-scb-preview-collapsed .atr-scb-preview-body { display:none; }
+.atr-scb-live-preview.atr-scb-preview-collapsed { padding:8px 12px; }

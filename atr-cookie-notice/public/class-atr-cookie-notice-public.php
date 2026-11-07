@@ -143,6 +143,9 @@ class Atr_Cookie_Notice_Public {
 		if ( isset( $settings['banner_side'] ) && 'left' === $settings['banner_side'] ) {
 			$class .= ' scb-side-left';
 		}
+		if ( ! empty( $settings['mobile_compact_mode'] ) && 'on' === $settings['mobile_compact_mode'] ) {
+			$class .= ' scb-mobile-compact';
+		}
 		return $class;
 	}
 
@@ -232,8 +235,8 @@ class Atr_Cookie_Notice_Public {
 			$replacements['[ok_button]']    = '<button id="scb-btn-ok" class="scb-btn scb-btn-primary scb-btn-ok" type="button">' . esc_html__( 'OK', 'atr-cookie-notice' ) . '</button>';
 			$replacements['[privacy_link]'] = '<a href="' . esc_url( $privacy_url ) . '" target="_blank" rel="noopener" class="scb-btn scb-btn-link">' . esc_html__( 'Privacy Policy', 'atr-cookie-notice' ) . '</a>';
 		} else {
-			$replacements['[accept_all_button]']  = '<button id="scb-btn-accept-all" class="scb-btn scb-btn-primary scb-btn-accept-all" type="button"><span class="scb-btn-text">' . esc_html__( 'Accept All', 'atr-cookie-notice' ) . '</span><span class="scb-btn-loading" style="display: none;">' . esc_html__( 'Loading...', 'atr-cookie-notice' ) . '</span></button>';
-			$replacements['[reject_button]']      = '<button id="scb-btn-reject" class="scb-btn scb-btn-secondary scb-btn-reject" type="button">' . esc_html__( 'Reject Non-Essential', 'atr-cookie-notice' ) . '</button>';
+			$replacements['[accept_all_button]']  = '<button id="scb-btn-accept-all" class="scb-btn scb-btn-primary scb-btn-accept-all" type="button" data-scb-short="' . esc_attr__( 'Accept', 'atr-cookie-notice' ) . '"><span class="scb-btn-text">' . esc_html__( 'Accept All', 'atr-cookie-notice' ) . '</span><span class="scb-btn-loading" style="display: none;">' . esc_html__( 'Loading...', 'atr-cookie-notice' ) . '</span></button>';
+			$replacements['[reject_button]']      = '<button id="scb-btn-reject" class="scb-btn scb-btn-secondary scb-btn-reject" type="button" data-scb-short="' . esc_attr__( 'Reject', 'atr-cookie-notice' ) . '">' . esc_html__( 'Reject Non-Essential', 'atr-cookie-notice' ) . '</button>';
 			$replacements['[preferences_button]'] = '<button id="scb-btn-custom" class="scb-btn scb-btn-link scb-btn-custom" type="button">' . esc_html__( 'Preferences', 'atr-cookie-notice' ) . '</button>';
 		}
 
@@ -262,10 +265,10 @@ class Atr_Cookie_Notice_Public {
 
 		// full mode
 		if ( ! preg_match( '/id\\s*=\\s*["\\\']scb-btn-accept-all["\\\']/i', $html ) ) {
-			$html .= ' ' . '<button id="scb-btn-accept-all" class="scb-btn scb-btn-primary scb-btn-accept-all" type="button"><span class="scb-btn-text">' . esc_html__( 'Accept All', 'atr-cookie-notice' ) . '</span><span class="scb-btn-loading" style="display: none;">' . esc_html__( 'Loading...', 'atr-cookie-notice' ) . '</span></button>';
+			$html .= ' ' . '<button id="scb-btn-accept-all" class="scb-btn scb-btn-primary scb-btn-accept-all" type="button" data-scb-short="' . esc_attr__( 'Accept', 'atr-cookie-notice' ) . '"><span class="scb-btn-text">' . esc_html__( 'Accept All', 'atr-cookie-notice' ) . '</span><span class="scb-btn-loading" style="display: none;">' . esc_html__( 'Loading...', 'atr-cookie-notice' ) . '</span></button>';
 		}
 		if ( ! preg_match( '/id\\s*=\\s*["\\\']scb-btn-reject["\\\']/i', $html ) ) {
-			$html .= ' ' . '<button id="scb-btn-reject" class="scb-btn scb-btn-secondary scb-btn-reject" type="button">' . esc_html__( 'Reject Non-Essential', 'atr-cookie-notice' ) . '</button>';
+			$html .= ' ' . '<button id="scb-btn-reject" class="scb-btn scb-btn-secondary scb-btn-reject" type="button" data-scb-short="' . esc_attr__( 'Reject', 'atr-cookie-notice' ) . '">' . esc_html__( 'Reject Non-Essential', 'atr-cookie-notice' ) . '</button>';
 		}
 		if ( ! preg_match( '/id\\s*=\\s*["\\\']scb-btn-custom["\\\']/i', $html ) ) {
 			$html .= ' ' . '<button id="scb-btn-custom" class="scb-btn scb-btn-link scb-btn-custom" type="button">' . esc_html__( 'Preferences', 'atr-cookie-notice' ) . '</button>';
@@ -300,7 +303,14 @@ class Atr_Cookie_Notice_Public {
 		$button_weight   = isset( $settings['button_font_weight'] ) ? sanitize_text_field( $settings['button_font_weight'] ) : '';
 		$uppercase       = isset( $settings['uppercase_buttons'] ) && $settings['uppercase_buttons'] === 'on';
 		$radius          = isset( $settings['border_radius'] ) ? absint( $settings['border_radius'] ) : 0;
-		$modal_max       = isset( $settings['modal_max_width'] ) ? absint( $settings['modal_max_width'] ) : 0;
+		$modal_max       = isset( $settings['banner_max_width'] ) ? absint( $settings['banner_max_width'] ) : 0;
+		if ( ! $modal_max && isset( $settings['modal_max_width'] ) ) {
+			$modal_max = absint( $settings['modal_max_width'] ); // Value saved before 1.4.0 under the removed duplicate field.
+		}
+		$mobile_font     = isset( $settings['mobile_font_size'] ) ? absint( $settings['mobile_font_size'] ) : 0;
+		$mobile_pad      = isset( $settings['mobile_padding'] ) ? absint( $settings['mobile_padding'] ) : 0;
+		$mobile_btn_dir  = isset( $settings['mobile_buttons_layout'] ) && in_array( $settings['mobile_buttons_layout'], array( 'stacked', 'row' ), true ) ? ( 'row' === $settings['mobile_buttons_layout'] ? 'row' : 'column' ) : '';
+		$mobile_max_h    = isset( $settings['mobile_max_height'] ) ? absint( $settings['mobile_max_height'] ) : 0;
 		$pad_y           = isset( $settings['container_padding_y'] ) ? absint( $settings['container_padding_y'] ) : 0;
 		$pad_x           = isset( $settings['container_padding_x'] ) ? absint( $settings['container_padding_x'] ) : 0;
 		$gap             = isset( $settings['gap_between_elements'] ) ? absint( $settings['gap_between_elements'] ) : 0;
@@ -350,6 +360,14 @@ class Atr_Cookie_Notice_Public {
 			$vars['--scb-gap'] = $gap . 'px'; }
 		if ( $direction ) {
 			$vars['--scb-direction'] = $direction; }
+		if ( $mobile_font ) {
+			$vars['--scb-m-font'] = $mobile_font . 'px'; }
+		if ( $mobile_pad ) {
+			$vars['--scb-m-pad'] = $mobile_pad . 'px'; }
+		if ( $mobile_btn_dir ) {
+			$vars['--scb-m-btn-dir'] = $mobile_btn_dir; }
+		if ( $mobile_max_h ) {
+			$vars['--scb-m-maxh'] = $mobile_max_h . 'vh'; }
 		if ( $z_index ) {
 			$vars['--scb-z-index'] = (string) $z_index; }
 		if ( $pri_btn_bg ) {
@@ -425,6 +443,7 @@ class Atr_Cookie_Notice_Public {
 		} else {
 			wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/atr-cookie-notice-public.js', array(), $asset_ver, true );
 		}
+		wp_enqueue_script( $this->plugin_name . '-mobile', plugin_dir_url( __FILE__ ) . 'js/atr-cookie-notice-mobile.js', array(), $asset_ver, true );
 		wp_enqueue_script( $this->plugin_name . '-drag', plugin_dir_url( __FILE__ ) . 'js/atr-cookie-notice-drag.js', array(), $asset_ver, true );
 
 		// Check if we're on the privacy policy page
@@ -470,6 +489,7 @@ class Atr_Cookie_Notice_Public {
 				'privacyPolicyUrl'   => $privacy_policy_url,
 				'privacyNoteText'    => $privacy_note_text,
 				'mode'               => $mode,
+				'mobileBreakpoint'   => isset( $settings['mobile_breakpoint'] ) ? absint( $settings['mobile_breakpoint'] ) : 768,
 			)
 		);
 	}
@@ -638,6 +658,7 @@ class Atr_Cookie_Notice_Public {
 			?>
 		<div id="scb-banner" class="scb-banner scb-mode-simple <?php echo esc_attr( $this->atr_cookie_notice_get_banner_position_class() ); ?><?php echo ! empty( $settings['force_override_theme_styles'] ) && $settings['force_override_theme_styles'] === 'on' ? ' scb-force' : ''; ?>">
 			<button type="button" class="scb-drag-handle" aria-label="<?php echo esc_attr__( 'Move banner (drag or use arrow keys)', 'atr-cookie-notice' ); ?>" title="<?php echo esc_attr__( 'Move banner (drag or use arrow keys)', 'atr-cookie-notice' ); ?>"></button>
+			<button type="button" class="scb-expand" aria-expanded="false" aria-label="<?php echo esc_attr__( 'Show full text', 'atr-cookie-notice' ); ?>" hidden></button>
 			<div class="scb-modal">
 				<div class="scb-content">
 					<div class="scb-text">
@@ -695,6 +716,7 @@ class Atr_Cookie_Notice_Public {
 		<div id="scb-overlay" class="scb-overlay"></div>
 		<div id="scb-banner" class="scb-banner scb-mode-full <?php echo esc_attr( $this->atr_cookie_notice_get_banner_position_class() ); ?><?php echo ! empty( $settings['force_override_theme_styles'] ) && $settings['force_override_theme_styles'] === 'on' ? ' scb-force' : ''; ?>">
 			<button type="button" class="scb-drag-handle" aria-label="<?php echo esc_attr__( 'Move banner (drag or use arrow keys)', 'atr-cookie-notice' ); ?>" title="<?php echo esc_attr__( 'Move banner (drag or use arrow keys)', 'atr-cookie-notice' ); ?>"></button>
+			<button type="button" class="scb-expand" aria-expanded="false" aria-label="<?php echo esc_attr__( 'Show full text', 'atr-cookie-notice' ); ?>" hidden></button>
 			<div class="scb-modal">
 				<div class="scb-header">
 					<button type="button" class="scb-close" aria-label="<?php echo esc_attr__( 'Close', 'atr-cookie-notice' ); ?>">&times;</button>
@@ -733,11 +755,11 @@ class Atr_Cookie_Notice_Public {
 			echo wp_kses( $actions_html, $allowed );
 		} else {
 			?>
-						<button id="scb-btn-accept-all" class="scb-btn scb-btn-primary scb-btn-accept-all" type="button">
+						<button id="scb-btn-accept-all" class="scb-btn scb-btn-primary scb-btn-accept-all" type="button" data-scb-short="<?php echo esc_attr__( 'Accept', 'atr-cookie-notice' ); ?>">
 							<span class="scb-btn-text"><?php echo esc_html( __( 'Accept All', 'atr-cookie-notice' ) ); ?></span>
 							<span class="scb-btn-loading" style="display: none;"><?php echo esc_html( __( 'Loading...', 'atr-cookie-notice' ) ); ?></span>
 						</button>
-						<button id="scb-btn-reject" class="scb-btn scb-btn-secondary scb-btn-reject" type="button">
+						<button id="scb-btn-reject" class="scb-btn scb-btn-secondary scb-btn-reject" type="button" data-scb-short="<?php echo esc_attr__( 'Reject', 'atr-cookie-notice' ); ?>">
 			<?php echo esc_html( __( 'Reject Non-Essential', 'atr-cookie-notice' ) ); ?>
 						</button>
 						<button id="scb-btn-custom" class="scb-btn scb-btn-link scb-btn-custom" type="button">
